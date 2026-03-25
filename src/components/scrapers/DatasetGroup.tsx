@@ -14,7 +14,7 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
   const [expanded, setExpanded] = useState(true);
   const progress =
     dataset.totals.expected > 0
-      ? Math.round((dataset.totals.scraped / dataset.totals.expected) * 100)
+      ? Math.round((dataset.totals.unique ?? dataset.totals.scraped) / dataset.totals.expected * 100)
       : 0;
 
   const hasRunning = dataset.sub_categories.some((sub) =>
@@ -42,8 +42,7 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
         </div>
         <div className="flex items-center gap-4">
           <span className="font-mono text-sm text-gray-600">
-            {dataset.totals.scraped.toLocaleString()} /{' '}
-            {dataset.totals.expected.toLocaleString()}
+            {(dataset.totals.unique ?? dataset.totals.scraped).toLocaleString()} unique
           </span>
           <div className="w-32">
             <ProgressBar value={progress} />

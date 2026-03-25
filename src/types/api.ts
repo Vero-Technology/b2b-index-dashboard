@@ -29,7 +29,7 @@ export interface SubCategory {
 export interface ScraperGrouped {
   dataset: string;
   sub_categories: SubCategory[];
-  totals: GroupTotals;
+  totals: GroupTotals & { unique?: number };
 }
 
 export interface Worker {
