@@ -23,6 +23,7 @@ export interface SubCategory {
   sub_category: string;
   scrapers: ScraperStatus[];
   totals: GroupTotals;
+  unique: number;
 }
 
 export interface ScraperGrouped {

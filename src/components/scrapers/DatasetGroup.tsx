@@ -78,9 +78,10 @@ function SubCategoryGroup({
   onScraperClick?: (source: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const uniqueCount = sub.unique ?? sub.totals.scraped;
   const progress =
     sub.totals.expected > 0
-      ? Math.round((sub.totals.scraped / sub.totals.expected) * 100)
+      ? Math.round((uniqueCount / sub.totals.expected) * 100)
       : 0;
   const hasRunning = sub.scrapers.some((s) => s.status === 'running');
   const dataSource = sub.scrapers[0]?.data_source || '';
@@ -110,7 +111,7 @@ function SubCategoryGroup({
         </div>
         <div className="flex items-center gap-4">
           <span className="font-mono text-xs text-gray-500">
-            {sub.totals.scraped.toLocaleString()} /{' '}
+            {(sub.unique ?? sub.totals.scraped).toLocaleString()} /{' '}
             {sub.totals.expected.toLocaleString()}
           </span>
           <div className="w-24">
