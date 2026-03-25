@@ -24,15 +24,15 @@ export default function DataBrowser() {
   return (
     <div className="space-y-6">
       {/* Tab bar */}
-      <div className="flex gap-1 rounded-lg bg-surface-900 p-1 border border-surface-700/50">
+      <div className="flex gap-1 rounded-xl bg-white p-1 border border-surface-700 shadow-sm">
         {TABS.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               tab === t.key
-                ? 'bg-amber-500/15 text-amber-400'
-                : 'text-gray-400 hover:text-gray-200'
+                ? 'bg-accent text-white shadow-sm'
+                : 'text-gray-500 hover:text-gray-800 hover:bg-surface-950'
             }`}
           >
             {t.label}
@@ -85,7 +85,7 @@ function AbstractsTab() {
       key: 'title',
       header: 'Title',
       render: (row) => (
-        <div className="max-w-md truncate text-gray-200" title={row.title}>
+        <div className="max-w-md truncate text-gray-800" title={row.title}>
           {row.title}
         </div>
       ),
@@ -94,7 +94,7 @@ function AbstractsTab() {
       key: 'first_authors',
       header: 'Authors',
       render: (row) => (
-        <span className="text-gray-400">
+        <span className="text-gray-500">
           {row.first_authors?.join(', ') || '—'}
         </span>
       ),
@@ -174,7 +174,7 @@ function EmaTab() {
       key: 'indication',
       header: 'Indication',
       render: (row) => (
-        <div className="max-w-xs truncate text-gray-400" title={row.indication || ''}>
+        <div className="max-w-xs truncate text-gray-500" title={row.indication || ''}>
           {row.indication || '—'}
         </div>
       ),
@@ -194,7 +194,7 @@ function EmaTab() {
       <Card title="Results" padding={false}>
         <DataTable
           columns={columns}
-          data={data }
+          data={data}
           isLoading={loading}
           page={pagination.page}
           totalPages={pagination.totalPages}
@@ -234,7 +234,7 @@ function AdcomTab() {
       key: 'is_current',
       header: 'Current',
       render: (row) => (
-        <span className={row.is_current ? 'text-emerald-400' : 'text-gray-600'}>
+        <span className={row.is_current ? 'text-emerald-600' : 'text-gray-300'}>
           {row.is_current ? 'Yes' : 'No'}
         </span>
       ),
@@ -245,7 +245,7 @@ function AdcomTab() {
     <Card title="Advisory Committee Members" padding={false}>
       <DataTable
         columns={columns}
-        data={data }
+        data={data}
         isLoading={loading}
         emptyMessage="No AdCom members found"
       />
@@ -264,13 +264,13 @@ function FilterInput({
 }) {
   return (
     <div className="relative">
-      <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" />
+      <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" />
       <input
         type="text"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-lg border border-surface-600 bg-surface-800 py-2 pl-9 pr-3 text-sm text-gray-200 placeholder-gray-600 outline-none transition-colors focus:border-amber-500/50"
+        className="rounded-lg border border-surface-700 bg-surface-950 py-2 pl-9 pr-3 text-sm text-gray-800 placeholder-gray-300 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent/20"
       />
     </div>
   );

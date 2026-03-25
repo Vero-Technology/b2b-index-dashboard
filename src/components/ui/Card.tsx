@@ -13,13 +13,13 @@ export function Card({ title, action, children, className, padding = true }: Car
   return (
     <div
       className={cn(
-        'rounded-lg border border-surface-700/50 bg-surface-900',
+        'rounded-xl border border-surface-700 bg-white shadow-sm',
         className
       )}
     >
       {title && (
-        <div className="flex items-center justify-between border-b border-surface-700/50 px-5 py-3">
-          <h3 className="font-display text-sm font-medium text-gray-300">{title}</h3>
+        <div className="flex items-center justify-between border-b border-surface-700 px-5 py-3">
+          <h3 className="font-display text-sm font-medium text-gray-800">{title}</h3>
           {action}
         </div>
       )}

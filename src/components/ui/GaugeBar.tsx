@@ -16,12 +16,12 @@ export function GaugeBar({
       ? 'bg-red-500'
       : value >= thresholds.warn
         ? 'bg-amber-500'
-        : 'bg-emerald-500';
+        : 'bg-emerald-600';
 
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gray-300">{label}</span>
+        <span className="text-sm font-medium text-gray-700">{label}</span>
         <span className="font-mono text-xs text-gray-400">{detail}</span>
       </div>
       <div className="h-2.5 overflow-hidden rounded-full bg-surface-800">

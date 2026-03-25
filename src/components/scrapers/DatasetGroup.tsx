@@ -22,33 +22,33 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
   );
 
   return (
-    <div className="overflow-hidden rounded-lg border border-surface-700/50">
+    <div className="overflow-hidden rounded-xl border border-surface-700 shadow-sm">
       {/* Dataset header */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center justify-between bg-surface-900 p-4 transition-colors hover:bg-surface-800"
+        className="flex w-full items-center justify-between bg-white p-4 transition-colors hover:bg-surface-950"
       >
         <div className="flex items-center gap-3">
           {expanded ? (
-            <ChevronDown size={18} className="text-gray-500" />
+            <ChevronDown size={18} className="text-gray-400" />
           ) : (
-            <ChevronRight size={18} className="text-gray-500" />
+            <ChevronRight size={18} className="text-gray-400" />
           )}
-          <Database size={18} className="text-amber-400" />
-          <span className="font-display font-semibold text-gray-100">
+          <Database size={18} className="text-accent" />
+          <span className="font-display font-semibold text-gray-900">
             {dataset.dataset}
           </span>
           {hasRunning && <StatusBadge status="running" size="sm" />}
         </div>
         <div className="flex items-center gap-4">
-          <span className="font-mono text-sm text-gray-300">
+          <span className="font-mono text-sm text-gray-600">
             {dataset.totals.scraped.toLocaleString()} /{' '}
             {dataset.totals.expected.toLocaleString()}
           </span>
           <div className="w-32">
             <ProgressBar value={progress} />
           </div>
-          <span className="w-12 text-right font-mono text-xs text-gray-500">
+          <span className="w-12 text-right font-mono text-xs text-gray-400">
             {progress}%
           </span>
         </div>
@@ -56,7 +56,7 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
 
       {/* Sub-categories */}
       {expanded && (
-        <div className="divide-y divide-surface-800/50">
+        <div className="divide-y divide-surface-700/50">
           {dataset.sub_categories.map((sub) => (
             <SubCategoryGroup
               key={sub.sub_category}
@@ -90,33 +90,33 @@ function SubCategoryGroup({
       {/* Sub-category header */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center justify-between px-6 py-3 transition-colors hover:bg-surface-900/50"
+        className="flex w-full items-center justify-between px-6 py-3 transition-colors hover:bg-surface-800/50"
       >
         <div className="flex items-center gap-2">
           {expanded ? (
-            <ChevronDown size={14} className="text-gray-500" />
+            <ChevronDown size={14} className="text-gray-400" />
           ) : (
-            <ChevronRight size={14} className="text-gray-500" />
+            <ChevronRight size={14} className="text-gray-400" />
           )}
-          <span className="text-sm font-medium text-gray-200">
+          <span className="text-sm font-medium text-gray-700">
             {sub.sub_category}
           </span>
           {dataSource && (
-            <span className="rounded bg-surface-800 px-2 py-0.5 text-xs text-gray-400">
+            <span className="rounded-md bg-surface-800 px-2 py-0.5 text-xs text-gray-500">
               {dataSource}
             </span>
           )}
           {hasRunning && <StatusBadge status="running" size="sm" />}
         </div>
         <div className="flex items-center gap-4">
-          <span className="font-mono text-xs text-gray-400">
+          <span className="font-mono text-xs text-gray-500">
             {sub.totals.scraped.toLocaleString()} /{' '}
             {sub.totals.expected.toLocaleString()}
           </span>
           <div className="w-24">
             <ProgressBar value={progress} size="sm" />
           </div>
-          <span className="w-12 text-right font-mono text-xs text-gray-500">
+          <span className="w-12 text-right font-mono text-xs text-gray-400">
             {sub.scrapers.length} job{sub.scrapers.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -127,7 +127,7 @@ function SubCategoryGroup({
         <div className="px-6 pb-2">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-surface-800 text-xs text-gray-500">
+              <tr className="border-b border-surface-700 text-xs text-gray-400">
                 <th className="py-1.5 text-left font-normal">Source</th>
                 <th className="py-1.5 text-right font-normal">Scraped</th>
                 <th className="py-1.5 text-right font-normal">Expected</th>
@@ -139,22 +139,22 @@ function SubCategoryGroup({
               {sub.scrapers.map((s) => (
                 <tr
                   key={s.source}
-                  className="cursor-pointer border-b border-surface-800/50 hover:bg-surface-900/30"
+                  className="cursor-pointer border-b border-surface-800/50 hover:bg-surface-800/30"
                   onClick={() => onScraperClick?.(s.source)}
                 >
-                  <td className="py-1.5 font-mono text-xs text-gray-300">
+                  <td className="py-1.5 font-mono text-xs text-gray-700">
                     {s.source}
                   </td>
-                  <td className="py-1.5 text-right font-mono text-gray-200">
+                  <td className="py-1.5 text-right font-mono text-gray-800">
                     {(s.total_scraped || 0).toLocaleString()}
                   </td>
-                  <td className="py-1.5 text-right font-mono text-gray-400">
+                  <td className="py-1.5 text-right font-mono text-gray-500">
                     {(s.total_expected || 0).toLocaleString()}
                   </td>
                   <td className="py-1.5 text-center">
                     <StatusBadge status={s.status} size="sm" />
                   </td>
-                  <td className="py-1.5 text-right text-xs text-gray-500">
+                  <td className="py-1.5 text-right text-xs text-gray-400">
                     {s.updated_at ? formatDate(s.updated_at) : '—'}
                   </td>
                 </tr>

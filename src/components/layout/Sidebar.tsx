@@ -9,6 +9,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { AlexandriaLogo } from './AlexandriaLogo';
 
 const NAV_ITEMS = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -26,13 +27,13 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex h-full w-60 flex-col border-r border-surface-700/50 bg-surface-950">
+    <aside className="flex h-full w-60 flex-col border-r border-surface-700 bg-white">
       {/* Brand */}
       <div className="px-5 py-5">
-        <div className="font-mono text-[11px] font-bold uppercase tracking-[0.25em] text-amber-400">
-          Alexandria
+        <AlexandriaLogo className="h-6 w-auto" />
+        <div className="mt-1 text-[10px] font-medium tracking-wide text-gray-400">
+          Scrape Dashboard
         </div>
-        <div className="mt-0.5 text-[10px] text-gray-600">Scrape Dashboard</div>
       </div>
 
       {/* Nav */}
@@ -44,10 +45,10 @@ export function Sidebar() {
             end={to === '/'}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-amber-500/10 text-amber-400 shadow-[inset_0_0_0_1px_rgba(245,158,11,0.15)]'
-                  : 'text-gray-400 hover:bg-surface-800 hover:text-gray-200'
+                  ? 'bg-accent-light text-accent shadow-sm'
+                  : 'text-gray-500 hover:bg-surface-800 hover:text-gray-800'
               )
             }
           >
@@ -58,10 +59,10 @@ export function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-surface-700/50 p-3">
+      <div className="border-t border-surface-700 p-3">
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-500 transition-colors hover:bg-surface-800 hover:text-gray-300"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-400 transition-colors hover:bg-surface-800 hover:text-gray-700"
         >
           <LogOut size={16} />
           Logout

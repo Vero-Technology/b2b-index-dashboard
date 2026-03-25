@@ -25,8 +25,8 @@ export default function SystemMonitor() {
 
   if (!system) {
     return (
-      <div className="flex items-center gap-2 py-12 text-sm text-gray-500">
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
+      <div className="flex items-center gap-2 py-12 text-sm text-gray-400">
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent border-t-transparent" />
         Loading system metrics...
       </div>
     );
@@ -37,31 +37,31 @@ export default function SystemMonitor() {
       {/* Capacity banner */}
       {capacity && (
         <div
-          className={`rounded-lg border p-4 ${
+          className={`rounded-xl border p-4 ${
             capacity.can_add_workers
-              ? 'border-emerald-500/20 bg-emerald-500/5'
-              : 'border-red-500/20 bg-red-500/5'
+              ? 'border-emerald-200 bg-emerald-50'
+              : 'border-red-200 bg-red-50'
           }`}
         >
           <div className="mb-1 flex items-center gap-2">
             {capacity.can_add_workers ? (
-              <CheckCircle size={18} className="text-emerald-400" />
+              <CheckCircle size={18} className="text-emerald-600" />
             ) : (
-              <AlertTriangle size={18} className="text-red-400" />
+              <AlertTriangle size={18} className="text-red-600" />
             )}
-            <span className="font-medium text-gray-200">
+            <span className={`font-medium ${capacity.can_add_workers ? 'text-emerald-800' : 'text-red-800'}`}>
               {capacity.can_add_workers
                 ? 'Capacity Available'
                 : 'System Under Pressure'}
             </span>
           </div>
-          <p className="text-sm text-gray-400">{capacity.recommendation}</p>
+          <p className="text-sm text-gray-600">{capacity.recommendation}</p>
           {capacity.warnings.length > 0 && (
             <ul className="mt-2 space-y-1">
               {capacity.warnings.map((w, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-1 text-xs text-amber-400"
+                  className="flex items-center gap-1 text-xs text-amber-700"
                 >
                   <AlertTriangle size={12} /> {w}
                 </li>
@@ -159,7 +159,7 @@ export default function SystemMonitor() {
         <div className="grid grid-cols-4 gap-2">
           {system.cpu.per_core_percent.map((pct, i) => (
             <div key={i} className="flex items-center gap-2">
-              <span className="w-8 font-mono text-xs text-gray-500">
+              <span className="w-8 font-mono text-xs text-gray-400">
                 C{i}
               </span>
               <div className="h-2 flex-1 overflow-hidden rounded-full bg-surface-800">
@@ -174,7 +174,7 @@ export default function SystemMonitor() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <span className="w-10 text-right font-mono text-xs text-gray-400">
+              <span className="w-10 text-right font-mono text-xs text-gray-500">
                 {pct}%
               </span>
             </div>
@@ -187,20 +187,20 @@ export default function SystemMonitor() {
         <Card title="Disk I/O (cumulative since boot)">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <span className="text-xs text-gray-500">Read</span>
-              <div className="font-mono text-lg text-gray-200">
+              <span className="text-xs text-gray-400">Read</span>
+              <div className="font-mono text-lg text-gray-800">
                 {io.read_gb} GB
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-400">
                 {io.read_count.toLocaleString()} ops
               </span>
             </div>
             <div>
-              <span className="text-xs text-gray-500">Write</span>
-              <div className="font-mono text-lg text-gray-200">
+              <span className="text-xs text-gray-400">Write</span>
+              <div className="font-mono text-lg text-gray-800">
                 {io.write_gb} GB
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-400">
                 {io.write_count.toLocaleString()} ops
               </span>
             </div>
@@ -214,34 +214,34 @@ export default function SystemMonitor() {
           <Card title="PostgreSQL">
             <div className="mb-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
               <div>
-                <span className="text-xs text-gray-500">Cache Hit Ratio</span>
+                <span className="text-xs text-gray-400">Cache Hit Ratio</span>
                 <div
                   className={`font-mono text-lg ${
                     postgres.cache_hit_ratio_percent > 99
-                      ? 'text-emerald-400'
+                      ? 'text-emerald-600'
                       : postgres.cache_hit_ratio_percent > 95
-                        ? 'text-amber-400'
-                        : 'text-red-400'
+                        ? 'text-amber-600'
+                        : 'text-red-600'
                   }`}
                 >
                   {postgres.cache_hit_ratio_percent}%
                 </div>
               </div>
               <div>
-                <span className="text-xs text-gray-500">WAL Size</span>
-                <div className="font-mono text-lg text-gray-200">
+                <span className="text-xs text-gray-400">WAL Size</span>
+                <div className="font-mono text-lg text-gray-800">
                   {postgres.wal_gb} GB
                 </div>
               </div>
               <div>
-                <span className="text-xs text-gray-500">shared_buffers</span>
-                <div className="font-mono text-lg text-gray-200">
+                <span className="text-xs text-gray-400">shared_buffers</span>
+                <div className="font-mono text-lg text-gray-800">
                   {postgres.shared_buffers}
                 </div>
               </div>
               <div>
-                <span className="text-xs text-gray-500">work_mem</span>
-                <div className="font-mono text-lg text-gray-200">
+                <span className="text-xs text-gray-400">work_mem</span>
+                <div className="font-mono text-lg text-gray-800">
                   {postgres.work_mem}
                 </div>
               </div>
@@ -255,25 +255,25 @@ export default function SystemMonitor() {
                 {postgres.active_queries.map((q) => (
                   <div
                     key={q.pid}
-                    className="rounded bg-surface-800 p-3 font-mono text-xs"
+                    className="rounded-lg bg-surface-950 border border-surface-700/50 p-3 font-mono text-xs"
                   >
                     <div className="mb-1 flex justify-between">
-                      <span className="text-amber-400">PID {q.pid}</span>
+                      <span className="text-accent font-medium">PID {q.pid}</span>
                       <span
                         className={
                           q.duration_sec > 60
-                            ? 'text-red-400'
-                            : 'text-gray-400'
+                            ? 'text-red-600'
+                            : 'text-gray-500'
                         }
                       >
                         {q.duration_sec}s
                       </span>
                     </div>
-                    <div className="break-all text-gray-300">
+                    <div className="break-all text-gray-700">
                       {q.query_preview}
                     </div>
                     {q.wait_event && (
-                      <div className="mt-1 text-gray-500">
+                      <div className="mt-1 text-gray-400">
                         Wait: {q.wait_event_type}/{q.wait_event}
                       </div>
                     )}
@@ -288,7 +288,7 @@ export default function SystemMonitor() {
             <Card title="Tables with Dead Tuples" padding={false}>
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-surface-700/50 text-xs text-gray-500">
+                  <tr className="border-b border-surface-700 text-xs text-gray-400">
                     <th className="px-4 py-2 text-left">Table</th>
                     <th className="px-4 py-2 text-right">Dead Tuples</th>
                     <th className="px-4 py-2 text-right">Last Vacuum</th>
@@ -300,13 +300,13 @@ export default function SystemMonitor() {
                       key={v.table}
                       className="border-b border-surface-800/50"
                     >
-                      <td className="px-4 py-2 font-mono text-gray-300">
+                      <td className="px-4 py-2 font-mono text-gray-700">
                         {v.table}
                       </td>
-                      <td className="px-4 py-2 text-right font-mono text-amber-400">
+                      <td className="px-4 py-2 text-right font-mono text-amber-700">
                         {v.dead_tuples.toLocaleString()}
                       </td>
-                      <td className="px-4 py-2 text-right text-xs text-gray-500">
+                      <td className="px-4 py-2 text-right text-xs text-gray-400">
                         {v.last_autovacuum
                           ? new Date(v.last_autovacuum).toLocaleDateString()
                           : 'never'}

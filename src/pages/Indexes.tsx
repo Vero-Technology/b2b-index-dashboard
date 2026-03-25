@@ -58,8 +58,8 @@ export default function Indexes() {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 py-12 text-sm text-gray-500">
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
+      <div className="flex items-center gap-2 py-12 text-sm text-gray-400">
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent border-t-transparent" />
         Loading infrastructure data...
       </div>
     );
@@ -71,13 +71,13 @@ export default function Indexes() {
       <Card title="Disk Usage">
         <div className="space-y-3">
           <div className="flex items-baseline justify-between">
-            <span className="font-mono text-2xl font-bold text-gray-100">{diskUsed}</span>
-            <span className="text-sm text-gray-500">
+            <span className="font-mono text-2xl font-bold text-gray-900">{diskUsed}</span>
+            <span className="text-sm text-gray-400">
               of {diskTotal} ({diskAvail} available)
             </span>
           </div>
           <ProgressBar value={diskPercent} />
-          <div className="font-mono text-xs text-gray-600">{diskPercent}% used</div>
+          <div className="font-mono text-xs text-gray-400">{diskPercent}% used</div>
         </div>
       </Card>
 

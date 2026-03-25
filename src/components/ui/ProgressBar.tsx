@@ -13,7 +13,7 @@ export function ProgressBar({ value, size = 'md', className }: ProgressBarProps)
   return (
     <div className={cn(`${height} w-full overflow-hidden rounded-full bg-surface-800`, className)}>
       <div
-        className="h-full rounded-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-500 ease-out"
+        className="h-full rounded-full bg-gradient-to-r from-accent to-emerald-600 transition-all duration-500 ease-out"
         style={{ width: `${clamped}%` }}
       />
     </div>

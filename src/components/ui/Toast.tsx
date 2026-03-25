@@ -29,9 +29,9 @@ const ICONS: Record<ToastType, typeof AlertCircle> = {
 };
 
 const STYLES: Record<ToastType, string> = {
-  error: 'border-red-500/30 bg-red-500/10 text-red-300',
-  success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
-  info: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+  error: 'border-red-200 bg-red-50 text-red-800',
+  success: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+  info: 'border-amber-200 bg-amber-50 text-amber-800',
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
@@ -59,7 +59,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div
               key={t.id}
               className={cn(
-                'flex items-center gap-2 rounded-lg border px-4 py-3 text-sm shadow-lg backdrop-blur-sm animate-in slide-in-from-right',
+                'flex items-center gap-2 rounded-xl border px-4 py-3 text-sm shadow-lg animate-in slide-in-from-right',
                 STYLES[t.type]
               )}
             >
@@ -67,7 +67,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               <span className="flex-1">{t.message}</span>
               <button
                 onClick={() => dismiss(t.id)}
-                className="ml-2 text-gray-400 hover:text-gray-200"
+                className="ml-2 opacity-50 hover:opacity-100"
               >
                 <X size={14} />
               </button>

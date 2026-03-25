@@ -102,17 +102,17 @@ export default function Dashboard() {
 
       {/* Grouped scrapers */}
       <div>
-        <h2 className="mb-4 font-display text-base font-semibold text-gray-200">
+        <h2 className="mb-4 font-display text-base font-semibold text-gray-800">
           Scrapers
         </h2>
         {scrapersLoading ? (
-          <div className="flex items-center gap-2 py-8 text-sm text-gray-500">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
+          <div className="flex items-center gap-2 py-8 text-sm text-gray-400">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             Loading scrapers...
           </div>
         ) : !datasets?.length ? (
           <Card>
-            <div className="py-8 text-center text-sm text-gray-500">
+            <div className="py-8 text-center text-sm text-gray-400">
               No scraper status data available
             </div>
           </Card>
@@ -134,9 +134,9 @@ export default function Dashboard() {
         <Card title="Table Row Counts">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {Object.entries(tableCounts).map(([table, count]) => (
-              <div key={table} className="rounded-md bg-surface-800/50 p-3">
-                <div className="font-mono text-[11px] text-gray-500">{table}</div>
-                <div className="mt-1 font-mono text-lg font-semibold text-gray-200">
+              <div key={table} className="rounded-lg bg-surface-950 p-3 border border-surface-700/50">
+                <div className="font-mono text-[11px] text-gray-400">{table}</div>
+                <div className="mt-1 font-mono text-lg font-semibold text-gray-800">
                   {count?.toLocaleString() ?? '—'}
                 </div>
               </div>
@@ -162,14 +162,16 @@ function SummaryCard({
   accent?: boolean;
 }) {
   return (
-    <div className="rounded-lg border border-surface-700/50 bg-surface-900 p-5">
+    <div className="rounded-xl border border-surface-700 bg-white p-5 shadow-sm">
       <div className="flex items-center gap-2">
-        <Icon size={14} className={accent ? 'text-amber-400' : 'text-gray-500'} />
-        <span className="text-xs font-medium text-gray-500">{label}</span>
+        <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${accent ? 'bg-emerald-50 text-emerald-600' : 'bg-surface-800 text-gray-400'}`}>
+          <Icon size={14} />
+        </div>
+        <span className="text-xs font-medium text-gray-400">{label}</span>
       </div>
       <div className="mt-2 flex items-baseline gap-1.5">
-        <span className="font-mono text-2xl font-bold text-gray-100">{value}</span>
-        {sub && <span className="text-xs text-gray-600">{sub}</span>}
+        <span className="font-mono text-2xl font-bold text-gray-900">{value}</span>
+        {sub && <span className="text-xs text-gray-400">{sub}</span>}
       </div>
     </div>
   );

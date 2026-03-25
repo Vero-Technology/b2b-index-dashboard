@@ -66,15 +66,15 @@ export default function ScraperDetail() {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate('/')}
-          className="rounded-md p-1.5 text-gray-400 transition-colors hover:bg-surface-700 hover:text-gray-200"
+          className="rounded-md p-1.5 text-gray-400 transition-colors hover:bg-surface-800 hover:text-gray-700"
         >
           <ArrowLeft size={18} />
         </button>
         <div className="flex-1">
-          <h2 className="font-display text-lg font-semibold text-gray-100">
+          <h2 className="font-display text-lg font-semibold text-gray-900">
             {displayName}
           </h2>
-          <div className="mt-0.5 font-mono text-xs text-gray-500">
+          <div className="mt-0.5 font-mono text-xs text-gray-400">
             {scraper?.category || source}
           </div>
         </div>
@@ -134,8 +134,8 @@ export default function ScraperDetail() {
       {scraper?.last_error && (
         <Card title="Last Error">
           <div className="flex items-start gap-3">
-            <AlertTriangle size={16} className="mt-0.5 shrink-0 text-red-400" />
-            <pre className="whitespace-pre-wrap font-mono text-xs text-red-300">
+            <AlertTriangle size={16} className="mt-0.5 shrink-0 text-red-500" />
+            <pre className="whitespace-pre-wrap font-mono text-xs text-red-700">
               {scraper.last_error}
             </pre>
           </div>
@@ -156,8 +156,8 @@ function StatItem({
 }) {
   return (
     <div>
-      <div className="text-[11px] font-medium text-gray-500">{label}</div>
-      <div className={`mt-0.5 font-mono text-lg font-semibold ${alert ? 'text-red-400' : 'text-gray-100'}`}>
+      <div className="text-[11px] font-medium text-gray-400">{label}</div>
+      <div className={`mt-0.5 font-mono text-lg font-semibold ${alert ? 'text-red-600' : 'text-gray-900'}`}>
         {value}
       </div>
     </div>

@@ -29,8 +29,8 @@ export function LogViewer({ lines, isLive = false, maxHeight = '28rem' }: LogVie
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-surface-700/50 bg-surface-950">
-      <div className="flex items-center justify-between border-b border-surface-700/50 px-4 py-2">
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-950">
+      <div className="flex items-center justify-between border-b border-gray-800 px-4 py-2">
         <div className="flex items-center gap-2">
           <Terminal size={14} className="text-gray-500" />
           <span className="font-mono text-xs text-gray-400">
@@ -48,7 +48,7 @@ export function LogViewer({ lines, isLive = false, maxHeight = '28rem' }: LogVie
             type="checkbox"
             checked={autoScroll}
             onChange={(e) => setAutoScroll(e.target.checked)}
-            className="h-3 w-3 rounded border-surface-600 bg-surface-800 accent-amber-500"
+            className="h-3 w-3 rounded border-gray-700 bg-gray-800 accent-emerald-500"
           />
           Auto-scroll
         </label>
@@ -64,7 +64,7 @@ export function LogViewer({ lines, isLive = false, maxHeight = '28rem' }: LogVie
           lines.map((line, i) => (
             <div
               key={i}
-              className={`whitespace-pre-wrap break-all py-px hover:bg-surface-800/40 ${getLineColor(line)}`}
+              className={`whitespace-pre-wrap break-all py-px hover:bg-gray-900/60 ${getLineColor(line)}`}
             >
               {line}
             </div>
