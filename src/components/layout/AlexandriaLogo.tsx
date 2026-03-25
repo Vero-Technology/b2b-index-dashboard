@@ -1,7 +1,7 @@
 export function AlexandriaLogo({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 2048 349"
+      viewBox="115 50 1860 230"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
