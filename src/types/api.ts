@@ -11,6 +11,7 @@ export interface ScraperStatus {
   started_at: string | null;
   updated_at: string | null;
   last_error: string | null;
+  unique_contribution?: number | null;
 }
 
 export interface GroupTotals {

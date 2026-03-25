@@ -131,6 +131,7 @@ function SubCategoryGroup({
                 <th className="py-1.5 text-left font-normal">Source</th>
                 <th className="py-1.5 text-right font-normal">Scraped</th>
                 <th className="py-1.5 text-right font-normal">Expected</th>
+                <th className="py-1.5 text-right font-normal">Unique</th>
                 <th className="py-1.5 text-center font-normal">Status</th>
                 <th className="py-1.5 text-right font-normal">Updated</th>
               </tr>
@@ -150,6 +151,9 @@ function SubCategoryGroup({
                   </td>
                   <td className="py-1.5 text-right font-mono text-gray-500">
                     {(s.total_expected || 0).toLocaleString()}
+                  </td>
+                  <td className="py-1.5 text-right font-mono text-emerald-700 font-medium">
+                    {s.unique_contribution != null ? s.unique_contribution.toLocaleString() : '—'}
                   </td>
                   <td className="py-1.5 text-center">
                     <StatusBadge status={s.status} size="sm" />
