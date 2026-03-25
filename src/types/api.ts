@@ -1,13 +1,34 @@
 export interface ScraperStatus {
   source: string;
   category: string;
-  total_expected: number | null;
-  total_scraped: number | null;
-  total_failed: number | null;
-  status: 'running' | 'completed' | 'failed' | 'pending' | 'idle';
+  dataset: string | null;
+  sub_category: string | null;
+  data_source: string | null;
+  total_expected: number;
+  total_scraped: number;
+  total_failed: number;
+  status: string;
   started_at: string | null;
   updated_at: string | null;
   last_error: string | null;
+}
+
+export interface GroupTotals {
+  scraped: number;
+  expected: number;
+  failed: number;
+}
+
+export interface SubCategory {
+  sub_category: string;
+  scrapers: ScraperStatus[];
+  totals: GroupTotals;
+}
+
+export interface ScraperGrouped {
+  dataset: string;
+  sub_categories: SubCategory[];
+  totals: GroupTotals;
 }
 
 export interface Worker {

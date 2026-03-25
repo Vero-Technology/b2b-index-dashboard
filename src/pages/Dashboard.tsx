@@ -7,21 +7,19 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { usePolling } from '../hooks/usePolling';
-import { getScraperStatuses, getTableCounts, getWorkers } from '../api/scrapers';
+import { getScrapersGrouped, getTableCounts, getWorkers } from '../api/scrapers';
 import { getDiskUsage } from '../api/indexes';
 import { fetchSystemOverview } from '../api/system';
 import { Card } from '../components/ui/Card';
-import { StatusBadge } from '../components/ui/StatusBadge';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { GaugeBar } from '../components/ui/GaugeBar';
-import { POLL_INTERVALS, SCRAPER_DISPLAY_NAMES } from '../lib/constants';
-import { formatDate, progressPercent } from '../lib/utils';
+import { DatasetGroup } from '../components/scrapers/DatasetGroup';
+import { POLL_INTERVALS } from '../lib/constants';
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const { data: scrapers, isLoading: scrapersLoading } = usePolling(
-    getScraperStatuses,
+  const { data: datasets, isLoading: scrapersLoading } = usePolling(
+    getScrapersGrouped,
     POLL_INTERVALS.DASHBOARD
   );
 
@@ -102,7 +100,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Scraper status grid */}
+      {/* Grouped scrapers */}
       <div>
         <h2 className="mb-4 font-display text-base font-semibold text-gray-200">
           Scrapers
@@ -112,60 +110,21 @@ export default function Dashboard() {
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-amber-400 border-t-transparent" />
             Loading scrapers...
           </div>
-        ) : !scrapers?.length ? (
+        ) : !datasets?.length ? (
           <Card>
             <div className="py-8 text-center text-sm text-gray-500">
               No scraper status data available
             </div>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
-            {scrapers.map((s) => {
-              const pct = progressPercent(s.total_scraped, s.total_expected);
-              return (
-                <button
-                  key={s.source}
-                  onClick={() => navigate(`/scrapers/${s.source}`)}
-                  className="group rounded-lg border border-surface-700/50 bg-surface-900 p-4 text-left transition-all hover:border-amber-500/20 hover:bg-surface-800/80"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="text-sm font-medium text-gray-200">
-                        {SCRAPER_DISPLAY_NAMES[s.source] || s.source}
-                      </div>
-                      <div className="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-gray-600">
-                        {s.category || s.source}
-                      </div>
-                    </div>
-                    <StatusBadge status={s.status} />
-                  </div>
-
-                  <div className="mt-4 space-y-2">
-                    <div className="flex items-baseline justify-between">
-                      <span className="font-mono text-lg font-semibold text-gray-100">
-                        {s.total_scraped?.toLocaleString() ?? '0'}
-                      </span>
-                      {s.total_expected && (
-                        <span className="font-mono text-xs text-gray-500">
-                          / {s.total_expected.toLocaleString()} expected
-                        </span>
-                      )}
-                    </div>
-                    <ProgressBar value={pct} />
-                  </div>
-
-                  {s.total_failed ? (
-                    <div className="mt-2 font-mono text-xs text-red-400">
-                      {s.total_failed} failed
-                    </div>
-                  ) : null}
-
-                  <div className="mt-3 text-[11px] text-gray-600">
-                    Updated {formatDate(s.updated_at)}
-                  </div>
-                </button>
-              );
-            })}
+          <div className="space-y-4">
+            {datasets.map((ds) => (
+              <DatasetGroup
+                key={ds.dataset}
+                dataset={ds}
+                onScraperClick={(source) => navigate(`/scrapers/${source}`)}
+              />
+            ))}
           </div>
         )}
       </div>
