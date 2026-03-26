@@ -80,6 +80,27 @@ export async function getFDADocumentStats(): Promise<FDADocumentStats> {
   return data;
 }
 
+export async function getClinicalTrials(params: {
+  phase?: string;
+  status?: string;
+  study_type?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<Record<string, unknown>>> {
+  const { data } = await client.get('/api/data/clinical_trials', { params });
+  return data;
+}
+
+export async function getClinicalTrialsFilters(): Promise<{
+  phases: string[];
+  statuses: string[];
+  study_types: string[];
+}> {
+  const { data } = await client.get('/api/data/clinical_trials/filters');
+  return data;
+}
+
 export async function getAdcomDocuments(params: {
   committee?: string;
   drug?: string;

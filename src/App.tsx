@@ -19,6 +19,7 @@ import FDADocuments from './pages/data/FDADocuments';
 import EMAEpars from './pages/data/EMAEpars';
 import AdComDocuments from './pages/data/AdComDocuments';
 import AdComMembers from './pages/data/AdComMembers';
+import ClinicalTrials from './pages/data/ClinicalTrials';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
               <Route path="/data/ema-epars" element={<EMAEpars />} />
               <Route path="/data/adcom-documents" element={<AdComDocuments />} />
               <Route path="/data/adcom-members" element={<AdComMembers />} />
+              <Route path="/data/clinical-trials" element={<ClinicalTrials />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>

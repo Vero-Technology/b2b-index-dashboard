@@ -22,6 +22,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   fda_adcom_documents: '/data/adcom-documents',
   adcom_members: '/data/adcom-members',
   fda_drug_documents: '/data/fda-documents',
+  clinical_trials: '/data/clinical-trials',
 };
 
 export default function SourceDetail() {
