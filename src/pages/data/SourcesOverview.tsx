@@ -22,6 +22,9 @@ const SOURCE_ICONS: Record<string, { icon: typeof Database; color: string }> = {
   fda_adcom_documents: { icon: FileText, color: 'bg-amber-50 text-amber-600' },
   adcom_members: { icon: Users, color: 'bg-rose-50 text-rose-600' },
   fda_drug_documents: { icon: FileText, color: 'bg-cyan-50 text-cyan-600' },
+  fda_drug_submissions: { icon: FileText, color: 'bg-gray-50 text-gray-600' },
+  press_releases: { icon: FileText, color: 'bg-orange-50 text-orange-600' },
+  clinical_trials: { icon: FlaskConical, color: 'bg-teal-50 text-teal-600' },
 };
 
 export default function SourcesOverview() {
