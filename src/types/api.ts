@@ -22,6 +22,7 @@ export interface ScraperStatus {
   unique_contribution?: number | null;
   breakdown?: ScraperBreakdown | null;
   description?: string | null;
+  notes?: string | null;
 }
 
 export interface GroupTotals {

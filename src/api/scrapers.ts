@@ -37,3 +37,12 @@ export async function stopScraper(source: string): Promise<{ status: string }> {
   const { data } = await client.post(`/api/scrapers/stop/${source}`);
   return data;
 }
+
+export async function getNotes(source: string): Promise<string> {
+  const { data } = await client.get<{ notes: string }>(`/api/scrapers/notes/${source}`);
+  return data.notes;
+}
+
+export async function updateNotes(source: string, notes: string): Promise<void> {
+  await client.put(`/api/scrapers/notes/${source}`, { notes });
+}

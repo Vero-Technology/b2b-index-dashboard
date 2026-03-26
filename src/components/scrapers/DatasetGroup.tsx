@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronRight, Database } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { ChevronDown, ChevronRight, Database, StickyNote } from 'lucide-react';
 import { StatusBadge } from '../ui/StatusBadge';
 import { ProgressBar } from '../ui/ProgressBar';
+import { updateNotes } from '../../api/scrapers';
 import type { ScraperGrouped, SubCategory as SubCategoryType } from '../../types/api';
 import { formatDate } from '../../lib/utils';
 
@@ -133,50 +134,119 @@ function SubCategoryGroup({
                 <th className="py-1.5 text-right font-normal">Expected</th>
                 <th className="py-1.5 text-right font-normal">Unique</th>
                 <th className="py-1.5 text-center font-normal">Status</th>
+                <th className="py-1.5 text-center font-normal">Notes</th>
                 <th className="py-1.5 text-right font-normal">Updated</th>
               </tr>
             </thead>
             <tbody>
               {sub.scrapers.map((s) => (
-                <tr
-                  key={s.source}
-                  className="cursor-pointer border-b border-surface-800/50 hover:bg-surface-800/30"
-                  onClick={() => onScraperClick?.(s.source)}
-                >
-                  <td className="py-1.5 font-mono text-xs text-gray-700">
-                    <div>{s.source}</div>
-                    {s.description && (
-                      <div className="mt-0.5 font-sans text-[10px] text-gray-400 leading-tight">
-                        {s.description}
-                      </div>
-                    )}
-                  </td>
-                  <td className="py-1.5 text-right font-mono text-gray-800">
-                    <div>{(s.total_scraped || 0).toLocaleString()}</div>
-                    {s.breakdown && (
-                      <div className="text-[10px] text-gray-400">
-                        {s.breakdown.primary_unit}
-                      </div>
-                    )}
-                  </td>
-                  <td className="py-1.5 text-right font-mono text-gray-500">
-                    {(s.total_expected || 0).toLocaleString()}
-                  </td>
-                  <td className="py-1.5 text-right font-mono text-emerald-700 font-medium">
-                    {s.unique_contribution != null ? s.unique_contribution.toLocaleString() : '—'}
-                  </td>
-                  <td className="py-1.5 text-center">
-                    <StatusBadge status={s.status} size="sm" />
-                  </td>
-                  <td className="py-1.5 text-right text-xs text-gray-400">
-                    {s.updated_at ? formatDate(s.updated_at) : '—'}
-                  </td>
-                </tr>
+                <ScraperRow key={s.source} scraper={s} onScraperClick={onScraperClick} />
               ))}
             </tbody>
           </table>
         </div>
       )}
     </div>
+  );
+}
+
+function ScraperRow({
+  scraper: s,
+  onScraperClick,
+}: {
+  scraper: import('../../types/api').ScraperStatus;
+  onScraperClick?: (source: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [notes, setNotes] = useState(s.notes || '');
+  const [saving, setSaving] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (editing && textareaRef.current) {
+      textareaRef.current.focus();
+      textareaRef.current.selectionStart = textareaRef.current.value.length;
+    }
+  }, [editing]);
+
+  const handleSave = async () => {
+    setEditing(false);
+    if (notes !== (s.notes || '')) {
+      setSaving(true);
+      try {
+        await updateNotes(s.source, notes);
+        s.notes = notes;
+      } catch {
+        setNotes(s.notes || '');
+      } finally {
+        setSaving(false);
+      }
+    }
+  };
+
+  return (
+    <tr className="border-b border-surface-800/50 hover:bg-surface-800/30">
+      <td
+        className="py-1.5 font-mono text-xs text-gray-700 cursor-pointer"
+        onClick={() => onScraperClick?.(s.source)}
+      >
+        <div>{s.source}</div>
+        {s.description && (
+          <div className="mt-0.5 font-sans text-[10px] text-gray-400 leading-tight">
+            {s.description}
+          </div>
+        )}
+      </td>
+      <td className="py-1.5 text-right font-mono text-gray-800">
+        <div>{(s.total_scraped || 0).toLocaleString()}</div>
+        {s.breakdown && (
+          <div className="text-[10px] text-gray-400">
+            {s.breakdown.primary_unit}
+          </div>
+        )}
+      </td>
+      <td className="py-1.5 text-right font-mono text-gray-500">
+        {(s.total_expected || 0).toLocaleString()}
+      </td>
+      <td className="py-1.5 text-right font-mono text-emerald-700 font-medium">
+        {s.unique_contribution != null ? s.unique_contribution.toLocaleString() : '—'}
+      </td>
+      <td className="py-1.5 text-center">
+        <StatusBadge status={s.status} size="sm" />
+      </td>
+      <td className="py-1.5 text-center max-w-[200px]">
+        {editing ? (
+          <textarea
+            ref={textareaRef}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            onBlur={handleSave}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') { setNotes(s.notes || ''); setEditing(false); }
+              if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSave(); }
+            }}
+            className="w-full rounded border border-accent/30 bg-white px-2 py-1 text-xs text-gray-700 outline-none focus:border-accent resize-none"
+            rows={2}
+          />
+        ) : (
+          <button
+            onClick={(e) => { e.stopPropagation(); setEditing(true); }}
+            className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            title="Click to edit notes"
+          >
+            {saving ? (
+              <span className="text-[10px] text-accent">saving...</span>
+            ) : notes ? (
+              <span className="text-gray-600 text-left max-w-[180px] truncate block">{notes}</span>
+            ) : (
+              <StickyNote size={12} className="opacity-40" />
+            )}
+          </button>
+        )}
+      </td>
+      <td className="py-1.5 text-right text-xs text-gray-400">
+        {s.updated_at ? formatDate(s.updated_at) : '—'}
+      </td>
+    </tr>
   );
 }
