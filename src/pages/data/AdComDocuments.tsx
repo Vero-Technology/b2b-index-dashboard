@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowLeft, Search, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
@@ -36,12 +36,12 @@ export default function AdComDocumentsPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const columns: Column<AdcomDocument>[] = [
-    { key: 'committee_name', header: 'Committee', mono: true },
+    { key: 'committee', header: 'Committee', mono: true },
     { key: 'drug_name', header: 'Drug' },
     {
-      key: 'drug_sponsor',
+      key: 'sponsor',
       header: 'Sponsor',
-      render: (row) => <span className="text-xs text-gray-600">{row.drug_sponsor || '—'}</span>,
+      render: (row) => <span className="text-xs text-gray-600">{row.sponsor || '—'}</span>,
     },
     {
       key: 'meeting_date',
@@ -71,10 +71,10 @@ export default function AdComDocumentsPage() {
       header: '',
       render: (row) => (
         <button
-          onClick={(e) => { e.stopPropagation(); setExpandedId(expandedId === row.id ? null : row.id); }}
+          onClick={(e) => { e.stopPropagation(); setExpandedId(expandedId === row.document_id ? null : row.document_id); }}
           className="rounded p-1 text-gray-400 hover:bg-surface-800 hover:text-gray-600"
         >
-          {expandedId === row.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          {expandedId === row.document_id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       ),
       className: 'w-10',
@@ -118,8 +118,8 @@ export default function AdComDocumentsPage() {
           onPageChange={pagination.setPage}
           emptyMessage="No AdCom documents found"
         />
-        {expandedId && data.find((d) => d.id === expandedId) && (
-          <ExpandedAdcom doc={data.find((d) => d.id === expandedId)!} />
+        {expandedId && data.find((d) => d.document_id === expandedId) && (
+          <ExpandedAdcom doc={data.find((d) => d.document_id === expandedId)!} />
         )}
       </Card>
     </div>
@@ -154,25 +154,24 @@ function ExpandedAdcom({ doc }: { doc: AdcomDocument }) {
       {doc.efficacy_data && Object.keys(doc.efficacy_data).length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Efficacy Data</h4>
-          <pre className="text-sm text-gray-700 whitespace-pre-wrap bg-surface-900 rounded-lg p-3 text-xs">
+          <pre className="text-sm text-gray-700 whitespace-pre-wrap bg-surface-900 rounded-lg p-3 text-xs overflow-auto max-h-60">
             {JSON.stringify(doc.efficacy_data, null, 2)}
           </pre>
         </div>
       )}
-      {doc.reviewer_concerns && (
-        <div>
-          <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Reviewer Concerns</h4>
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">{doc.reviewer_concerns}</p>
-        </div>
-      )}
-      {doc.source_url && (
-        <div>
-          <a href={doc.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
-            View source ↗
+      <div className="flex gap-3">
+        {doc.pdf_url && (
+          <a href={doc.pdf_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
+            View PDF <ExternalLink size={10} />
           </a>
-        </div>
-      )}
-      {!doc.key_concerns?.length && !doc.safety_signals?.length && !doc.efficacy_data && !doc.reviewer_concerns && (
+        )}
+        {doc.source_url && (
+          <a href={doc.source_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-accent hover:underline">
+            Source <ExternalLink size={10} />
+          </a>
+        )}
+      </div>
+      {!doc.key_concerns?.length && !doc.safety_signals?.length && !doc.efficacy_data && (
         <p className="text-sm text-gray-400">No extracted details available</p>
       )}
     </div>

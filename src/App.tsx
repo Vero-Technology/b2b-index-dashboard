@@ -11,9 +11,11 @@ import Indexes from './pages/Indexes';
 import SystemMonitor from './pages/SystemMonitor';
 import WorkerLaunch from './pages/WorkerLaunch';
 import SourcesOverview from './pages/data/SourcesOverview';
+import SourceDetail from './pages/data/SourceDetail';
 import ConferenceAbstracts from './pages/data/ConferenceAbstracts';
 import FDAApplications from './pages/data/FDAApplications';
 import FDAApplicationDetail from './pages/data/FDAApplicationDetail';
+import FDADocuments from './pages/data/FDADocuments';
 import EMAEpars from './pages/data/EMAEpars';
 import AdComDocuments from './pages/data/AdComDocuments';
 import AdComMembers from './pages/data/AdComMembers';
@@ -32,10 +34,12 @@ export default function App() {
               <Route path="/launch" element={<WorkerLaunch />} />
               <Route path="/workers" element={<Workers />} />
               <Route path="/data" element={<SourcesOverview />} />
+              <Route path="/data/source/:source" element={<SourceDetail />} />
               <Route path="/data/browser" element={<DataBrowser />} />
               <Route path="/data/conference-abstracts" element={<ConferenceAbstracts />} />
               <Route path="/data/fda-applications" element={<FDAApplications />} />
               <Route path="/data/fda-applications/:appNumber" element={<FDAApplicationDetail />} />
+              <Route path="/data/fda-documents" element={<FDADocuments />} />
               <Route path="/data/ema-epars" element={<EMAEpars />} />
               <Route path="/data/adcom-documents" element={<AdComDocuments />} />
               <Route path="/data/adcom-members" element={<AdComMembers />} />
