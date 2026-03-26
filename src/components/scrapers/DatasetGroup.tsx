@@ -144,10 +144,20 @@ function SubCategoryGroup({
                   onClick={() => onScraperClick?.(s.source)}
                 >
                   <td className="py-1.5 font-mono text-xs text-gray-700">
-                    {s.source}
+                    <div>{s.source}</div>
+                    {s.description && (
+                      <div className="mt-0.5 font-sans text-[10px] text-gray-400 leading-tight">
+                        {s.description}
+                      </div>
+                    )}
                   </td>
                   <td className="py-1.5 text-right font-mono text-gray-800">
-                    {(s.total_scraped || 0).toLocaleString()}
+                    <div>{(s.total_scraped || 0).toLocaleString()}</div>
+                    {s.breakdown && (
+                      <div className="text-[10px] text-gray-400">
+                        {s.breakdown.primary_unit}
+                      </div>
+                    )}
                   </td>
                   <td className="py-1.5 text-right font-mono text-gray-500">
                     {(s.total_expected || 0).toLocaleString()}

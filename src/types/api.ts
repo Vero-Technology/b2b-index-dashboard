@@ -1,3 +1,11 @@
+export interface ScraperBreakdown {
+  primary_count: number;
+  primary_unit: string;
+  components: Record<string, number>;
+  total_documents?: number;
+  description: string;
+}
+
 export interface ScraperStatus {
   source: string;
   category: string;
@@ -12,6 +20,8 @@ export interface ScraperStatus {
   updated_at: string | null;
   last_error: string | null;
   unique_contribution?: number | null;
+  breakdown?: ScraperBreakdown | null;
+  description?: string | null;
 }
 
 export interface GroupTotals {
