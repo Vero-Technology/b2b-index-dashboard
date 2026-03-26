@@ -36,8 +36,13 @@ export default function AdComDocumentsPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const columns: Column<AdcomDocument>[] = [
-    { key: 'committee', header: 'Committee', mono: true },
+    { key: 'committee_name', header: 'Committee', mono: true },
     { key: 'drug_name', header: 'Drug' },
+    {
+      key: 'drug_sponsor',
+      header: 'Sponsor',
+      render: (row) => <span className="text-xs text-gray-600">{row.drug_sponsor || '—'}</span>,
+    },
     {
       key: 'meeting_date',
       header: 'Meeting Date',
@@ -124,25 +129,50 @@ export default function AdComDocumentsPage() {
 function ExpandedAdcom({ doc }: { doc: AdcomDocument }) {
   return (
     <div className="border-t border-surface-700 bg-surface-950 px-6 py-4 space-y-3">
-      {doc.key_concerns && (
+      {doc.indication && (
+        <div>
+          <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Indication</h4>
+          <p className="text-sm text-gray-700">{doc.indication}</p>
+        </div>
+      )}
+      {doc.key_concerns && doc.key_concerns.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Key Concerns</h4>
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">{doc.key_concerns}</p>
+          <ul className="list-disc list-inside text-sm text-gray-700 space-y-0.5">
+            {doc.key_concerns.map((c, i) => <li key={i}>{c}</li>)}
+          </ul>
         </div>
       )}
-      {doc.safety_signals && (
+      {doc.safety_signals && doc.safety_signals.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Safety Signals</h4>
-          <p className="text-sm text-red-600/80 whitespace-pre-wrap">{doc.safety_signals}</p>
+          <ul className="list-disc list-inside text-sm text-red-600/80 space-y-0.5">
+            {doc.safety_signals.map((s, i) => <li key={i}>{s}</li>)}
+          </ul>
         </div>
       )}
-      {doc.efficacy_data && (
+      {doc.efficacy_data && Object.keys(doc.efficacy_data).length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Efficacy Data</h4>
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">{doc.efficacy_data}</p>
+          <pre className="text-sm text-gray-700 whitespace-pre-wrap bg-surface-900 rounded-lg p-3 text-xs">
+            {JSON.stringify(doc.efficacy_data, null, 2)}
+          </pre>
         </div>
       )}
-      {!doc.key_concerns && !doc.safety_signals && !doc.efficacy_data && (
+      {doc.reviewer_concerns && (
+        <div>
+          <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Reviewer Concerns</h4>
+          <p className="text-sm text-gray-700 whitespace-pre-wrap">{doc.reviewer_concerns}</p>
+        </div>
+      )}
+      {doc.source_url && (
+        <div>
+          <a href={doc.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+            View source ↗
+          </a>
+        </div>
+      )}
+      {!doc.key_concerns?.length && !doc.safety_signals?.length && !doc.efficacy_data && !doc.reviewer_concerns && (
         <p className="text-sm text-gray-400">No extracted details available</p>
       )}
     </div>

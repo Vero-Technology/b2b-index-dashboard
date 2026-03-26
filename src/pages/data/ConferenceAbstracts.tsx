@@ -151,7 +151,7 @@ function ExpandedRow({ abstract: a }: { abstract: ConferenceAbstract }) {
       <div>
         <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Full Abstract</h4>
         <p className="text-sm text-gray-700 whitespace-pre-wrap">
-          {(a as Record<string, unknown>).abstract_text as string || 'No abstract text available'}
+          {(a as unknown as Record<string, unknown>).abstract_text as string || 'No abstract text available'}
         </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -162,7 +162,7 @@ function ExpandedRow({ abstract: a }: { abstract: ConferenceAbstract }) {
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Trial IDs</h4>
           <p className="text-sm text-gray-600 font-mono">
-            {((a as Record<string, unknown>).trial_ids as string[])?.join(', ') || '—'}
+            {((a as unknown as Record<string, unknown>).trial_ids as string[])?.join(', ') || '—'}
           </p>
         </div>
       </div>

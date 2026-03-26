@@ -2,39 +2,37 @@
 
 export interface FDADrugApplication {
   application_number: string;
-  brand_name: string | null;
-  generic_name: string | null;
   sponsor_name: string | null;
+  brand_names: string[] | null;
+  generic_names: string[] | null;
+  substance_names: string[] | null;
   product_type: string | null;
-  approval_date: string | null;
-  fast_track: boolean;
-  breakthrough_therapy: boolean;
-  accelerated_approval: boolean;
-  orphan_drug: boolean;
-  documents_count: number;
-  submissions_count: number;
+  route: string[] | null;
+  products: unknown | null;
 }
 
 export interface FDASubmission {
-  submission_number: string;
   submission_type: string | null;
+  submission_number: string;
   submission_status: string | null;
   submission_status_date: string | null;
   review_priority: string | null;
+  submission_class_code: string | null;
+  submission_class_description: string | null;
 }
 
 export interface FDADocument {
-  id: number;
-  application_number: string | null;
-  document_type: string | null;
-  document_url: string | null;
-  title: string | null;
-  extracted_data: {
-    efficacy_summary?: string;
-    safety_summary?: string;
-    clinical_trials?: string[];
-    reviewer_concerns?: string[];
-  } | null;
+  doc_id: string;
+  application_number?: string | null;
+  doc_type: string | null;
+  doc_url: string | null;
+  doc_date: string | null;
+  extracted_text?: string | null;
+  extracted_data: Record<string, unknown> | null;
+  has_extraction?: boolean;
+  sponsor_name?: string | null;
+  brand_names?: string[] | null;
+  generic_names?: string[] | null;
 }
 
 export interface FDAApplicationDetail {
@@ -45,17 +43,20 @@ export interface FDAApplicationDetail {
 
 export interface AdcomDocument {
   id: number;
-  committee: string | null;
+  committee_name: string | null;
   drug_name: string | null;
+  drug_sponsor: string | null;
   meeting_date: string | null;
+  indication: string | null;
   document_type: string | null;
+  vote_result: string | null;
   vote_yes: number | null;
   vote_no: number | null;
   vote_abstain: number | null;
-  vote_result: string | null;
-  key_concerns: string | null;
-  safety_signals: string | null;
-  efficacy_data: string | null;
+  key_concerns: string[] | null;
+  efficacy_data: Record<string, unknown> | null;
+  safety_signals: string[] | null;
+  reviewer_concerns: string | null;
   source_url: string | null;
 }
 
@@ -95,5 +96,4 @@ export interface PaginatedResponse<T> {
   total: number;
   limit: number;
   offset: number;
-  has_more?: boolean;
 }

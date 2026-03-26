@@ -49,7 +49,7 @@ export default function EMAEparsPage() {
       key: 'expand',
       header: '',
       render: (row) => {
-        const hasDetail = row.benefit_risk_summary || (row as Record<string, unknown>).clinical_efficacy || (row as Record<string, unknown>).clinical_safety;
+        const hasDetail = row.benefit_risk_summary || (row as unknown as Record<string, unknown>).clinical_efficacy || (row as unknown as Record<string, unknown>).clinical_safety;
         return hasDetail ? (
           <button
             onClick={(e) => { e.stopPropagation(); setExpandedId(expandedId === row.id ? null : row.id); }}
@@ -102,7 +102,7 @@ export default function EMAEparsPage() {
 }
 
 function ExpandedEpar({ epar }: { epar: EmaEpar }) {
-  const ext = epar as Record<string, unknown>;
+  const ext = epar as unknown as Record<string, unknown>;
   return (
     <div className="border-t border-surface-700 bg-surface-950 px-6 py-4 space-y-3">
       {epar.benefit_risk_summary && (
@@ -111,18 +111,18 @@ function ExpandedEpar({ epar }: { epar: EmaEpar }) {
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{epar.benefit_risk_summary}</p>
         </div>
       )}
-      {ext.clinical_efficacy && (
+      {ext.clinical_efficacy ? (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Clinical Efficacy</h4>
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{String(ext.clinical_efficacy)}</p>
         </div>
-      )}
-      {ext.clinical_safety && (
+      ) : null}
+      {ext.clinical_safety ? (
         <div>
           <h4 className="text-xs font-medium uppercase text-gray-400 mb-1">Clinical Safety</h4>
           <p className="text-sm text-gray-700 whitespace-pre-wrap">{String(ext.clinical_safety)}</p>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

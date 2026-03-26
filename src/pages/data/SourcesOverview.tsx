@@ -7,7 +7,6 @@ import {
   FlaskConical,
   Pill,
   RefreshCw,
-  AlertCircle,
   ArrowRight,
 } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
@@ -55,19 +54,53 @@ export default function SourcesOverview() {
     );
   }
 
+  // If API fails, show fallback cards with "?" counts
   if (error) {
+    const fallbackSources = Object.entries(SOURCE_META).map(([key, meta]) => ({
+      source: key,
+      table_name: key,
+      row_count: -1,
+      extracted_count: 0,
+      extraction_progress: 0,
+      last_updated: null,
+      _meta: meta,
+    }));
+
     return (
       <div className="space-y-6">
-        <h1 className="font-display text-lg font-semibold text-gray-800">Data Sources</h1>
-        <Card>
-          <div className="flex flex-col items-center gap-3 py-8 text-sm text-gray-500">
-            <AlertCircle size={24} className="text-red-400" />
-            <p>{error}</p>
-            <button onClick={fetchSources} className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent/90">
-              <RefreshCw size={12} /> Retry
-            </button>
-          </div>
-        </Card>
+        <div className="flex items-center justify-between">
+          <h1 className="font-display text-lg font-semibold text-gray-800">Data Sources</h1>
+          <button onClick={fetchSources} className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent/90">
+            <RefreshCw size={12} /> Retry
+          </button>
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {fallbackSources.map(({ source, _meta: meta }) => {
+            const Icon = meta.icon;
+            return (
+              <Link key={source} to={meta.path} className="group">
+                <div className="rounded-xl border border-surface-700 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-accent/30">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${meta.color}`}>
+                        <Icon size={16} />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-800">{meta.label}</h3>
+                        <p className="font-mono text-xs text-gray-400">{source}</p>
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-gray-300 transition-colors group-hover:text-accent" />
+                  </div>
+                  <div className="mt-4 flex items-baseline gap-1.5">
+                    <span className="font-mono text-2xl font-bold text-gray-400">?</span>
+                    <span className="text-xs text-gray-400">rows</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     );
   }

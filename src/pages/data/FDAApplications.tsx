@@ -9,13 +9,6 @@ import type { FDADrugApplication } from '../../types/data';
 
 const PRODUCT_TYPES = ['', 'NDA', 'BLA', 'ANDA'];
 
-const DESIGNATION_BADGES: Record<string, { label: string; color: string }> = {
-  fast_track: { label: 'FT', color: 'bg-blue-50 text-blue-700' },
-  breakthrough_therapy: { label: 'BT', color: 'bg-emerald-50 text-emerald-700' },
-  accelerated_approval: { label: 'AA', color: 'bg-amber-50 text-amber-700' },
-  orphan_drug: { label: 'OD', color: 'bg-purple-50 text-purple-700' },
-};
-
 export default function FDAApplicationsPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
@@ -54,45 +47,21 @@ export default function FDAApplicationsPage() {
   const columns: Column<FDADrugApplication>[] = [
     { key: 'application_number', header: 'App #', mono: true },
     {
-      key: 'brand_name',
+      key: 'drug',
       header: 'Drug',
       render: (row) => (
         <div>
-          <div className="font-medium text-gray-800">{row.brand_name || '—'}</div>
-          {row.generic_name && <div className="text-[11px] text-gray-400">{row.generic_name}</div>}
+          <div className="font-medium text-gray-800">{row.brand_names?.[0] || '—'}</div>
+          {row.generic_names?.[0] && <div className="text-[11px] text-gray-400">{row.generic_names[0]}</div>}
         </div>
       ),
     },
     { key: 'sponsor_name', header: 'Sponsor' },
     { key: 'product_type', header: 'Type', mono: true },
     {
-      key: 'approval_date',
-      header: 'Approval Date',
-      render: (row) => <span className="font-mono text-xs">{row.approval_date ? new Date(row.approval_date).toLocaleDateString() : '—'}</span>,
-    },
-    {
-      key: 'designations',
-      header: 'Designations',
-      render: (row) => {
-        const desigs = Object.entries(DESIGNATION_BADGES).filter(([key]) => (row as Record<string, unknown>)[key]);
-        return desigs.length ? (
-          <div className="flex gap-1">
-            {desigs.map(([, { label, color }]) => (
-              <span key={label} className={`inline-block rounded-full px-1.5 py-0.5 text-[10px] font-bold ${color}`}>{label}</span>
-            ))}
-          </div>
-        ) : <span className="text-gray-300">—</span>;
-      },
-    },
-    {
-      key: 'submissions_count',
-      header: 'Submissions',
-      render: (row) => <span className="font-mono text-xs">{row.submissions_count ?? '—'}</span>,
-    },
-    {
-      key: 'documents_count',
-      header: 'Docs',
-      render: (row) => <span className="font-mono text-xs">{row.documents_count ?? '—'}</span>,
+      key: 'route',
+      header: 'Route',
+      render: (row) => <span className="text-xs text-gray-600">{row.route?.join(', ') || '—'}</span>,
     },
   ];
 
@@ -152,7 +121,7 @@ export default function FDAApplicationsPage() {
                 >
                   {columns.map((col) => (
                     <td key={col.key} className={`px-4 py-2.5 text-gray-700 ${col.mono ? 'font-mono text-xs' : ''}`}>
-                      {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '—')}
+                      {col.render ? col.render(row) : String((row as unknown as Record<string, unknown>)[col.key] ?? '—')}
                     </td>
                   ))}
                 </tr>

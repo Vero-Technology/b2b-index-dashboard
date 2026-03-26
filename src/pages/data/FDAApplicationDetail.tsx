@@ -1,16 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, FileText, ChevronDown, ChevronUp, AlertCircle, RefreshCw } from 'lucide-react';
+import { ArrowLeft, FileText, ChevronDown, ChevronUp, AlertCircle, RefreshCw, ExternalLink } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { getFDAApplicationDetail } from '../../api/data';
 import type { FDAApplicationDetail, FDADocument } from '../../types/data';
-
-const DESIGNATION_BADGES: Record<string, { label: string; full: string; color: string }> = {
-  fast_track: { label: 'FT', full: 'Fast Track', color: 'bg-blue-50 text-blue-700 border-blue-200' },
-  breakthrough_therapy: { label: 'BT', full: 'Breakthrough Therapy', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  accelerated_approval: { label: 'AA', full: 'Accelerated Approval', color: 'bg-amber-50 text-amber-700 border-amber-200' },
-  orphan_drug: { label: 'OD', full: 'Orphan Drug', color: 'bg-purple-50 text-purple-700 border-purple-200' },
-};
 
 export default function FDAApplicationDetailPage() {
   const { appNumber } = useParams<{ appNumber: string }>();
@@ -64,7 +57,6 @@ export default function FDAApplicationDetailPage() {
   }
 
   const app = detail.application;
-  const desigs = Object.entries(DESIGNATION_BADGES).filter(([key]) => (app as Record<string, unknown>)[key]);
 
   return (
     <div className="space-y-6">
@@ -74,9 +66,14 @@ export default function FDAApplicationDetailPage() {
       <Card>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">{app.brand_name || app.application_number}</h1>
-            {app.generic_name && <p className="text-sm text-gray-500">{app.generic_name}</p>}
+            <h1 className="text-xl font-bold text-gray-900">{app.brand_names?.[0] || app.application_number}</h1>
+            {app.generic_names && app.generic_names.length > 0 && (
+              <p className="text-sm text-gray-500">{app.generic_names.join(', ')}</p>
+            )}
             <p className="mt-1 text-xs text-gray-400">Sponsor: {app.sponsor_name || '—'}</p>
+            {app.route && app.route.length > 0 && (
+              <p className="mt-0.5 text-xs text-gray-400">Route: {app.route.join(', ')}</p>
+            )}
           </div>
           <div className="text-right">
             <div className="font-mono text-lg font-bold text-accent">{app.application_number}</div>
@@ -85,23 +82,16 @@ export default function FDAApplicationDetailPage() {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-4">
-          {app.approval_date && (
-            <div className="flex items-center gap-1.5 text-sm text-gray-600">
-              <Calendar size={14} className="text-gray-400" />
-              Approved: {new Date(app.approval_date).toLocaleDateString()}
-            </div>
-          )}
           <div className="flex items-center gap-1.5 text-sm text-gray-600">
             <FileText size={14} className="text-gray-400" />
             {detail.documents.length} documents, {detail.submissions.length} submissions
           </div>
         </div>
 
-        {desigs.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {desigs.map(([, { full, color }]) => (
-              <span key={full} className={`rounded-full border px-2.5 py-1 text-xs font-medium ${color}`}>{full}</span>
-            ))}
+        {app.brand_names && app.brand_names.length > 1 && (
+          <div className="mt-3">
+            <span className="text-xs text-gray-400">All brand names: </span>
+            <span className="text-xs text-gray-600">{app.brand_names.join(', ')}</span>
           </div>
         )}
       </Card>
@@ -134,6 +124,11 @@ export default function FDAApplicationDetailPage() {
                       </span>
                     )}
                   </div>
+                  {sub.submission_class_code && (
+                    <div className="mt-0.5 text-[10px] text-gray-400">
+                      {sub.submission_class_code}{sub.submission_class_description ? ` — ${sub.submission_class_description}` : ''}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -148,7 +143,7 @@ export default function FDAApplicationDetailPage() {
         ) : (
           <div className="divide-y divide-surface-800/50">
             {detail.documents.map((doc) => (
-              <DocumentRow key={doc.id} doc={doc} />
+              <DocumentRow key={doc.doc_id} doc={doc} />
             ))}
           </div>
         )}
@@ -159,7 +154,7 @@ export default function FDAApplicationDetailPage() {
 
 function DocumentRow({ doc }: { doc: FDADocument }) {
   const [expanded, setExpanded] = useState(false);
-  const hasExtracted = doc.extracted_data && Object.keys(doc.extracted_data).length > 0;
+  const hasExtracted = doc.has_extraction || (doc.extracted_data && Object.keys(doc.extracted_data).length > 0);
 
   return (
     <div>
@@ -169,13 +164,16 @@ function DocumentRow({ doc }: { doc: FDADocument }) {
       >
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-800">{doc.title || doc.document_type || 'Document'}</span>
-            {doc.document_type && <span className="rounded-full bg-surface-800 px-1.5 py-0.5 text-[10px] text-gray-500">{doc.document_type}</span>}
+            <span className="text-sm font-medium text-gray-800">{doc.doc_type || 'Document'}</span>
+            {doc.doc_date && <span className="font-mono text-[10px] text-gray-400">{new Date(doc.doc_date).toLocaleDateString()}</span>}
+            {doc.has_extraction && (
+              <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-600">Extracted</span>
+            )}
           </div>
-          {doc.document_url && (
-            <a href={doc.document_url} target="_blank" rel="noopener noreferrer"
-              className="text-[11px] text-accent hover:underline" onClick={(e) => e.stopPropagation()}>
-              View source ↗
+          {doc.doc_url && (
+            <a href={doc.doc_url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] text-accent hover:underline" onClick={(e) => e.stopPropagation()}>
+              View source <ExternalLink size={10} />
             </a>
           )}
         </div>
@@ -187,39 +185,16 @@ function DocumentRow({ doc }: { doc: FDADocument }) {
       </div>
       {expanded && doc.extracted_data && (
         <div className="border-t border-surface-800/50 bg-surface-950 px-5 py-4 space-y-3">
-          {doc.extracted_data.efficacy_summary && (
-            <ExtractedSection title="Efficacy Summary" content={doc.extracted_data.efficacy_summary} />
-          )}
-          {doc.extracted_data.safety_summary && (
-            <ExtractedSection title="Safety Summary" content={doc.extracted_data.safety_summary} />
-          )}
-          {doc.extracted_data.clinical_trials && doc.extracted_data.clinical_trials.length > 0 && (
-            <div>
-              <h5 className="text-xs font-medium uppercase text-gray-400 mb-1">Clinical Trials</h5>
-              <ul className="list-disc list-inside text-sm text-gray-600 space-y-0.5">
-                {doc.extracted_data.clinical_trials.map((t, i) => <li key={i}>{t}</li>)}
-              </ul>
+          {Object.entries(doc.extracted_data).map(([key, value]) => (
+            <div key={key}>
+              <h5 className="text-xs font-medium uppercase text-gray-400 mb-1">{key.replace(/_/g, ' ')}</h5>
+              <p className="text-sm text-gray-600 whitespace-pre-wrap">
+                {typeof value === 'string' ? value : JSON.stringify(value, null, 2)}
+              </p>
             </div>
-          )}
-          {doc.extracted_data.reviewer_concerns && doc.extracted_data.reviewer_concerns.length > 0 && (
-            <div>
-              <h5 className="text-xs font-medium uppercase text-gray-400 mb-1">Reviewer Concerns</h5>
-              <ul className="list-disc list-inside text-sm text-red-600/80 space-y-0.5">
-                {doc.extracted_data.reviewer_concerns.map((c, i) => <li key={i}>{c}</li>)}
-              </ul>
-            </div>
-          )}
+          ))}
         </div>
       )}
-    </div>
-  );
-}
-
-function ExtractedSection({ title, content }: { title: string; content: string }) {
-  return (
-    <div>
-      <h5 className="text-xs font-medium uppercase text-gray-400 mb-1">{title}</h5>
-      <p className="text-sm text-gray-600 whitespace-pre-wrap">{content}</p>
     </div>
   );
 }
