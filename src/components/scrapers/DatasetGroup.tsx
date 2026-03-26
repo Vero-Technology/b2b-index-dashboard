@@ -15,7 +15,7 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
   const [expanded, setExpanded] = useState(true);
   const progress =
     dataset.totals.expected > 0
-      ? Math.round((dataset.totals.unique ?? dataset.totals.scraped) / dataset.totals.expected * 100)
+      ? Math.round((dataset.totals.unique || dataset.totals.scraped) / dataset.totals.expected * 100)
       : 0;
 
   const hasRunning = dataset.sub_categories.some((sub) =>
@@ -43,7 +43,7 @@ export function DatasetGroup({ dataset, onScraperClick }: DatasetGroupProps) {
         </div>
         <div className="flex items-center gap-4">
           <span className="font-mono text-sm text-gray-600">
-            {(dataset.totals.unique ?? dataset.totals.scraped).toLocaleString()} unique
+            {(dataset.totals.unique || dataset.totals.scraped).toLocaleString()} unique
           </span>
           <div className="w-32">
             <ProgressBar value={progress} />
@@ -78,7 +78,7 @@ function SubCategoryGroup({
   onScraperClick?: (source: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const uniqueCount = sub.unique ?? sub.totals.scraped;
+  const uniqueCount = sub.unique || sub.totals.scraped;
   const progress =
     sub.totals.expected > 0
       ? Math.round((uniqueCount / sub.totals.expected) * 100)
@@ -111,7 +111,7 @@ function SubCategoryGroup({
         </div>
         <div className="flex items-center gap-4">
           <span className="font-mono text-xs text-gray-500">
-            {(sub.unique ?? sub.totals.scraped).toLocaleString()} /{' '}
+            {(sub.unique || sub.totals.scraped).toLocaleString()} /{' '}
             {sub.totals.expected.toLocaleString()}
           </span>
           <div className="w-24">
