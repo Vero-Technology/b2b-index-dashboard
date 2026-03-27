@@ -23,6 +23,7 @@ import ClinicalTrials from './pages/data/ClinicalTrials';
 import SECFilings from './pages/data/SECFilings';
 import FDACRLs from './pages/data/FDACRLs';
 import EMARefusals from './pages/data/EMARefusals';
+import EUClinicalTrials from './pages/data/EUClinicalTrials';
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="/data/sec-filings" element={<SECFilings />} />
               <Route path="/data/fda-crls" element={<FDACRLs />} />
               <Route path="/data/ema-refusals" element={<EMARefusals />} />
+              <Route path="/data/eu-clinical-trials" element={<EUClinicalTrials />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>

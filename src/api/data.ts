@@ -217,3 +217,28 @@ export async function getEMARefusals(params: {
   const { data } = await client.get('/api/data/ema_refusals', { params });
   return data;
 }
+
+export interface EUClinicalTrial {
+  id: number;
+  eudract_number: string;
+  title: string;
+  sponsor_name: string;
+  trial_status: string;
+  phase: string;
+  medical_conditions: string[];
+  imp_names: string[];
+  date_entered: string;
+  source_url: string;
+}
+
+export async function getEUClinicalTrials(params: {
+  sponsor?: string;
+  status?: string;
+  phase?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<EUClinicalTrial>> {
+  const { data } = await client.get('/api/data/eu_clinical_trials', { params });
+  return data;
+}
