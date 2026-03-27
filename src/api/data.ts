@@ -110,3 +110,34 @@ export async function getAdcomDocuments(params: {
   const { data } = await client.get('/api/data/fda_adcom_documents', { params });
   return data;
 }
+
+export async function getSECFilings(params: {
+  company?: string;
+  form_type?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<Record<string, unknown>>> {
+  const { data } = await client.get('/api/data/sec_filings', { params });
+  return data;
+}
+
+export async function getFDACRLs(params: {
+  drug_name?: string;
+  sponsor?: string;
+  indication?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<Record<string, unknown>>> {
+  const { data } = await client.get('/api/data/fda_crls', { params });
+  return data;
+}
+
+export async function getEMARefusals(params: {
+  product_name?: string;
+  outcome_type?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<Record<string, unknown>>> {
+  const { data } = await client.get('/api/data/ema_refusals', { params });
+  return data;
+}

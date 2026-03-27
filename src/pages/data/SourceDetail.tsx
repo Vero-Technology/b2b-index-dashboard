@@ -23,6 +23,9 @@ const BROWSE_ROUTES: Record<string, string> = {
   adcom_members: '/data/adcom-members',
   fda_drug_documents: '/data/fda-documents',
   clinical_trials: '/data/clinical-trials',
+  sec_filing_extractions: '/data/sec-filings',
+  fda_complete_response_letters: '/data/fda-crls',
+  ema_negative_outcomes: '/data/ema-refusals',
 };
 
 export default function SourceDetail() {
