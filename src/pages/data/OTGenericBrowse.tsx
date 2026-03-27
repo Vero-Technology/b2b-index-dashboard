@@ -6,15 +6,55 @@ import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
 import client from '../../api/client';
 
-const OT_TABLE_META: Record<string, { label: string; endpoint: string }> = {
-  'ot-interactions': { label: 'Protein Interactions', endpoint: 'ot_interactions' },
-  'ot-studies': { label: 'GWAS Studies', endpoint: 'ot_studies' },
-  'ot-literature': { label: 'Literature', endpoint: 'ot_literature' },
-  'ot-colocalisation': { label: 'Colocalisation', endpoint: 'ot_colocalisation' },
-  'ot-disease-phenotype': { label: 'Disease Phenotypes', endpoint: 'ot_disease_phenotype' },
-  'ot-mouse-phenotype': { label: 'Mouse Phenotypes', endpoint: 'ot_mouse_phenotype' },
-  'ot-pharmacogenomics': { label: 'Pharmacogenomics', endpoint: 'ot_pharmacogenomics' },
-  'ot-target-prioritisation': { label: 'Target Prioritisation', endpoint: 'ot_target_prioritisation' },
+const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?: string[]; headers?: Record<string, string> }> = {
+  'ot-interactions': {
+    label: 'Protein Interactions',
+    endpoint: 'ot_interactions',
+    columns: ['target_a_name', 'target_b_name', 'sourcedatabase', 'interactor_a_name', 'interactor_b_name', 'scoring', 'count'],
+    headers: { target_a_name: 'Target A', target_b_name: 'Target B', sourcedatabase: 'Source DB', interactor_a_name: 'Interactor A', interactor_b_name: 'Interactor B', scoring: 'Score', count: 'Count' },
+  },
+  'ot-studies': {
+    label: 'GWAS Studies',
+    endpoint: 'ot_studies',
+    columns: ['studyid', 'traitreported', 'traitmapped', 'pubmedid', 'publicationdate', 'numassocloci', 'nsamples', 'source'],
+    headers: { studyid: 'Study ID', traitreported: 'Trait Reported', traitmapped: 'Trait Mapped', pubmedid: 'PubMed', publicationdate: 'Date', numassocloci: 'Loci', nsamples: 'Samples', source: 'Source' },
+  },
+  'ot-literature': {
+    label: 'Literature',
+    endpoint: 'ot_literature',
+    columns: ['pmid', 'pmcid', 'journal', 'keyword', 'year'],
+    headers: { pmid: 'PMID', pmcid: 'PMCID', journal: 'Journal', keyword: 'Keyword', year: 'Year' },
+  },
+  'ot-colocalisation': {
+    label: 'Colocalisation',
+    endpoint: 'ot_colocalisation',
+    columns: ['leftstudyid', 'rightstudyid', 'leftgeneentrezid', 'rightgeneentrezid', 'chromosome', 'colocalisationmethod', 'h4', 'log2h4h3'],
+    headers: { leftstudyid: 'Left Study', rightstudyid: 'Right Study', leftgeneentrezid: 'Left Gene', rightgeneentrezid: 'Right Gene', chromosome: 'Chr', colocalisationmethod: 'Method', h4: 'H4', log2h4h3: 'log2(H4/H3)' },
+  },
+  'ot-disease-phenotype': {
+    label: 'Disease Phenotypes',
+    endpoint: 'ot_disease_phenotype',
+    columns: ['disease_name', 'diseaseid', 'phenotype'],
+    headers: { disease_name: 'Disease', diseaseid: 'Disease ID', phenotype: 'Phenotype' },
+  },
+  'ot-mouse-phenotype': {
+    label: 'Mouse Phenotypes',
+    endpoint: 'ot_mouse_phenotype',
+    columns: ['target_symbol', 'targetinmodel', 'modelphenotypelabel', 'modelphenotypeid'],
+    headers: { target_symbol: 'Gene', targetinmodel: 'Mouse Gene', modelphenotypelabel: 'Phenotype', modelphenotypeid: 'Phenotype ID' },
+  },
+  'ot-pharmacogenomics': {
+    label: 'Pharmacogenomics',
+    endpoint: 'ot_pharmacogenomics',
+    columns: ['gene_symbol', 'drugs', 'variantid', 'evidencelevel', 'phenotypetext', 'pgxcategory', 'datasourceid'],
+    headers: { gene_symbol: 'Gene', drugs: 'Drugs', variantid: 'Variant', evidencelevel: 'Evidence', phenotypetext: 'Phenotype', pgxcategory: 'Category', datasourceid: 'Source' },
+  },
+  'ot-target-prioritisation': {
+    label: 'Target Prioritisation',
+    endpoint: 'ot_target_prioritisation',
+    columns: ['target_symbol', 'target_name', 'hassafetyevent', 'haspocket', 'hasligand', 'hassmallmoleculebinder', 'iscancerdrivergene', 'maxclinicalstage'],
+    headers: { target_symbol: 'Symbol', target_name: 'Target Name', hassafetyevent: 'Safety Event', haspocket: 'Pocket', hasligand: 'Ligand', hassmallmoleculebinder: 'Small Mol.', iscancerdrivergene: 'Cancer Driver', maxclinicalstage: 'Max Clinical' },
+  },
 };
 
 export default function OTGenericBrowsePage() {
@@ -42,14 +82,16 @@ export default function OTGenericBrowsePage() {
       setData(rows);
       pagination.setTotal(result.total || 0);
 
-      // Auto-generate columns from first row
+      // Use preferred columns if defined, otherwise auto-detect from first row
       if (rows.length > 0 && columns.length === 0) {
-        const keys = Object.keys(rows[0]).filter(k => 
-          k !== 'id' && typeof rows[0][k] !== 'object'
-        ).slice(0, 8);
+        const rowKeys = Object.keys(rows[0]);
+        const keys = meta.columns
+          ? meta.columns.filter(k => rowKeys.includes(k))
+          : rowKeys.filter(k => k !== 'id' && typeof rows[0][k] !== 'object').slice(0, 8);
+        const hdrs = meta.headers || {};
         setColumns(keys.map(k => ({
           key: k,
-          header: k.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
+          header: hdrs[k] || k.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
           className: 'text-xs',
           render: (row: Record<string, unknown>) => {
             const val = row[k];
