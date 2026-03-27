@@ -26,6 +26,15 @@ const BROWSE_ROUTES: Record<string, string> = {
   sec_filing_extractions: '/data/sec-filings',
   fda_complete_response_letters: '/data/fda-crls',
   ema_negative_outcomes: '/data/ema-refusals',
+  eu_clinical_trials: '/data/eu-clinical-trials',
+  ot_interaction: '/data/ot-interactions',
+  ot_study: '/data/ot-studies',
+  ot_literature: '/data/ot-literature',
+  ot_colocalisation: '/data/ot-colocalisation',
+  ot_disease_phenotype: '/data/ot-disease-phenotype',
+  ot_mouse_phenotype: '/data/ot-mouse-phenotype',
+  ot_pharmacogenomics: '/data/ot-pharmacogenomics',
+  ot_target_prioritisation: '/data/ot-target-prioritisation',
 };
 
 export default function SourceDetail() {
