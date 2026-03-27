@@ -135,21 +135,14 @@ export default function SECFilingsPage() {
         </div>
       </Card>
 
-      <Card title="Results" padding={false}>
-        <DataTable
-          columns={columns}
-          data={data}
-          isLoading={loading}
-          page={pagination.page}
-          totalPages={pagination.totalPages}
-          total={pagination.total}
-          onPageChange={pagination.setPage}
-          emptyMessage="No SEC filings found"
-        />
-      </Card>
-
       {expandedRow && (
         <Card title={`${expandedRow.company} — Extracted Data`}>
+          <button 
+            onClick={() => setExpandedId(null)}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          >
+            ✕
+          </button>
           <div className="space-y-6 text-sm">
             {/* CRLs */}
             {expandedRow.crls && expandedRow.crls.length > 0 && (
@@ -232,6 +225,20 @@ export default function SECFilingsPage() {
           </div>
         </Card>
       )}
+
+      <Card title="Results" padding={false}>
+        <DataTable
+          columns={columns}
+          data={data}
+          isLoading={loading}
+          page={pagination.page}
+          totalPages={pagination.totalPages}
+          total={pagination.total}
+          onPageChange={pagination.setPage}
+          emptyMessage="No SEC filings found"
+        />
+      </Card>
+
     </div>
   );
 }
