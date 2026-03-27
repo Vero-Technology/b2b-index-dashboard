@@ -4,18 +4,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
-import { getSECFilings } from '../../api/data';
-
-interface SECFiling {
-  id: number;
-  company: string;
-  form_type: string;
-  filing_date: string | null;
-  source_url: string;
-  crl_count: number;
-  pipeline_count: number;
-  patent_count: number;
-}
+import { getSECFilings, type SECFiling } from '../../api/data';
 
 export default function SECFilingsPage() {
   const [companyFilter, setCompanyFilter] = useState('');

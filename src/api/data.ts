@@ -111,12 +111,49 @@ export async function getAdcomDocuments(params: {
   return data;
 }
 
+export interface SECFiling {
+  id: number;
+  company: string;
+  form_type: string;
+  filing_date: string | null;
+  source_url: string;
+  crl_count: number;
+  pipeline_count: number;
+  patent_count: number;
+}
+
+export interface FDACRL {
+  id: number;
+  drug_name: string;
+  generic_name: string | null;
+  sponsor: string;
+  indication: string;
+  application_type: string;
+  crl_date: string | null;
+  rejection_reasons: string[];
+  fda_requests: string[];
+  source_type: string;
+  filing_date: string | null;
+  source_url: string;
+}
+
+export interface EMARefusal {
+  id: number;
+  product_name: string;
+  active_substance: string | null;
+  therapeutic_area: string | null;
+  outcome_type: string;
+  reason: string | null;
+  decision_date: string | null;
+  epar_url: string | null;
+}
+
 export async function getSECFilings(params: {
   company?: string;
   form_type?: string;
   limit?: number;
   offset?: number;
-}): Promise<PaginatedResponse<Record<string, unknown>>> {
+}): Promise<PaginatedResponse<SECFiling>> {
   const { data } = await client.get('/api/data/sec_filings', { params });
   return data;
 }
@@ -127,7 +164,7 @@ export async function getFDACRLs(params: {
   indication?: string;
   limit?: number;
   offset?: number;
-}): Promise<PaginatedResponse<Record<string, unknown>>> {
+}): Promise<PaginatedResponse<FDACRL>> {
   const { data } = await client.get('/api/data/fda_crls', { params });
   return data;
 }
@@ -137,7 +174,7 @@ export async function getEMARefusals(params: {
   outcome_type?: string;
   limit?: number;
   offset?: number;
-}): Promise<PaginatedResponse<Record<string, unknown>>> {
+}): Promise<PaginatedResponse<EMARefusal>> {
   const { data } = await client.get('/api/data/ema_refusals', { params });
   return data;
 }

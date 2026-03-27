@@ -4,18 +4,7 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
-import { getEMARefusals } from '../../api/data';
-
-interface EMARefusal {
-  id: number;
-  product_name: string;
-  active_substance: string | null;
-  therapeutic_area: string | null;
-  outcome_type: string;
-  reason: string | null;
-  decision_date: string | null;
-  epar_url: string | null;
-}
+import { getEMARefusals, type EMARefusal } from '../../api/data';
 
 export default function EMARefusalsPage() {
   const [productFilter, setProductFilter] = useState('');

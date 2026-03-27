@@ -4,22 +4,7 @@ import { ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
-import { getFDACRLs } from '../../api/data';
-
-interface FDACRL {
-  id: number;
-  drug_name: string;
-  generic_name: string | null;
-  sponsor: string;
-  indication: string;
-  application_type: string;
-  crl_date: string | null;
-  rejection_reasons: string[];
-  fda_requests: string[];
-  source_type: string;
-  filing_date: string | null;
-  source_url: string;
-}
+import { getFDACRLs, type FDACRL } from '../../api/data';
 
 export default function FDACRLsPage() {
   const [drugFilter, setDrugFilter] = useState('');
