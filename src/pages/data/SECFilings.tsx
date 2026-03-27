@@ -136,14 +136,14 @@ export default function SECFilingsPage() {
       </Card>
 
       {expandedRow && (
-        <Card title={`${expandedRow.company} — Extracted Data`}>
+        <Card title={`${expandedRow.company} — Extracted Data`} className="relative">
           <button 
             onClick={() => setExpandedId(null)}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            className="absolute top-3 right-4 text-gray-400 hover:text-gray-600 z-10"
           >
             ✕
           </button>
-          <div className="space-y-6 text-sm">
+          <div className="space-y-6 text-sm pt-2">
             {/* CRLs */}
             {expandedRow.crls && expandedRow.crls.length > 0 && (
               <div>
@@ -220,6 +220,16 @@ export default function SECFilingsPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Empty state */}
+            {(!expandedRow.crls || expandedRow.crls.length === 0) &&
+             (!expandedRow.pipeline_drugs || expandedRow.pipeline_drugs.length === 0) &&
+             (!expandedRow.patent_expirations || expandedRow.patent_expirations.length === 0) &&
+             (!expandedRow.litigation || expandedRow.litigation.length === 0) && (
+              <div className="text-gray-400 text-center py-4">
+                No extracted data available for this filing.
               </div>
             )}
           </div>
