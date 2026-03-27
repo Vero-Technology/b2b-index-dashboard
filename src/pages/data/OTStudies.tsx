@@ -8,13 +8,14 @@ import client from '../../api/client';
 
 interface OTStudy {
   studyid: string;
-  traitreported: string;
-  traitmapped: string;
+  traitfromsource: string;
+  studytype: string;
   pubmedid: string;
+  publicationtitle: string;
   publicationdate: string;
-  numassocloci: number;
+  publicationfirstauthor: string;
   nsamples: number;
-  source: string;
+  ncases: number;
 }
 
 export default function OTStudiesPage() {
@@ -53,13 +54,13 @@ export default function OTStudiesPage() {
       className: 'font-mono text-xs w-40',
     },
     { 
-      key: 'traitreported', 
-      header: 'Trait Reported',
+      key: 'traitfromsource', 
+      header: 'Trait',
       render: (row) => (
         <div className="max-w-sm">
-          <div className="text-sm text-gray-800 line-clamp-2">{row.traitreported || '—'}</div>
-          {row.traitmapped && row.traitmapped !== row.traitreported && (
-            <div className="text-xs text-gray-400 mt-0.5">→ {row.traitmapped}</div>
+          <div className="text-sm text-gray-800 line-clamp-2">{row.traitfromsource || '—'}</div>
+          {row.publicationtitle && (
+            <div className="text-xs text-gray-400 mt-0.5">{row.publicationtitle}</div>
           )}
         </div>
       ),
@@ -85,14 +86,6 @@ export default function OTStudiesPage() {
       className: 'w-24 text-xs',
     },
     { 
-      key: 'numassocloci', 
-      header: 'Loci',
-      className: 'w-16 text-right',
-      render: (row) => (
-        <span className="text-xs">{row.numassocloci?.toLocaleString() || '—'}</span>
-      ),
-    },
-    { 
       key: 'nsamples', 
       header: 'Samples',
       className: 'w-20 text-right',
@@ -100,7 +93,15 @@ export default function OTStudiesPage() {
         <span className="text-xs">{row.nsamples?.toLocaleString() || '—'}</span>
       ),
     },
-    { key: 'source', header: 'Source', className: 'w-24 text-xs' },
+    { 
+      key: 'ncases', 
+      header: 'Cases',
+      className: 'w-16 text-right',
+      render: (row) => (
+        <span className="text-xs">{row.ncases?.toLocaleString() || '—'}</span>
+      ),
+    },
+    { key: 'studytype', header: 'Type', className: 'w-24 text-xs' },
   ];
 
   return (
