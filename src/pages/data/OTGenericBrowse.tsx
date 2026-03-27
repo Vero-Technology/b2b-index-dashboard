@@ -83,7 +83,7 @@ export default function OTGenericBrowsePage() {
       pagination.setTotal(result.total || 0);
 
       // Use preferred columns if defined, otherwise auto-detect from first row
-      if (rows.length > 0 && columns.length === 0) {
+      if (rows.length > 0) {
         const rowKeys = Object.keys(rows[0]);
         const keys = meta.columns
           ? meta.columns.filter(k => rowKeys.includes(k))
