@@ -111,6 +111,40 @@ export async function getAdcomDocuments(params: {
   return data;
 }
 
+export interface ExtractedCRL {
+  drug_name?: string;
+  indication?: string;
+  rejection_reasons?: string[];
+  crl_date?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedDrug {
+  drug_name?: string;
+  name?: string;
+  indication?: string;
+  therapeutic_area?: string;
+  phase?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedPatent {
+  drug_name?: string;
+  product?: string;
+  expiration_date?: string;
+  patent_number?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedLitigation {
+  case_name?: string;
+  description?: string;
+  status?: string;
+  drug_name?: string;
+  [key: string]: unknown;
+}
+
 export interface SECFiling {
   id: number;
   company: string;
@@ -121,10 +155,10 @@ export interface SECFiling {
   pipeline_count: number;
   patent_count: number;
   litigation_count?: number;
-  crls?: Record<string, unknown>[];
-  pipeline_drugs?: Record<string, unknown>[];
-  patent_expirations?: Record<string, unknown>[];
-  litigation?: Record<string, unknown>[];
+  crls?: ExtractedCRL[];
+  pipeline_drugs?: ExtractedDrug[];
+  patent_expirations?: ExtractedPatent[];
+  litigation?: ExtractedLitigation[];
 }
 
 export interface FDACRL {

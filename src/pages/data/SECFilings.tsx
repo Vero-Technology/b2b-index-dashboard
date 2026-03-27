@@ -158,14 +158,14 @@ export default function SECFilingsPage() {
                   🚫 Complete Response Letters ({expandedRow.crls.length})
                 </h4>
                 <div className="space-y-3">
-                  {expandedRow.crls.map((crl: Record<string, unknown>, i: number) => (
+                  {expandedRow.crls.map((crl, i) => (
                     <div key={i} className="rounded-lg bg-red-50 p-3 border border-red-100">
-                      <div className="font-medium text-gray-800">{String(crl.drug_name || 'Unknown Drug')}</div>
-                      <div className="text-gray-600 text-xs mt-1">{String(crl.indication || '')}</div>
-                      {crl.rejection_reasons && Array.isArray(crl.rejection_reasons) && (
+                      <div className="font-medium text-gray-800">{String(crl.drug_name ?? 'Unknown Drug')}</div>
+                      <div className="text-gray-600 text-xs mt-1">{String(crl.indication ?? '')}</div>
+                      {Array.isArray(crl.rejection_reasons) && crl.rejection_reasons.length > 0 && (
                         <div className="mt-2">
                           <span className="text-xs text-gray-500">Reasons: </span>
-                          <span className="text-xs text-red-700">{(crl.rejection_reasons as string[]).join(', ')}</span>
+                          <span className="text-xs text-red-700">{crl.rejection_reasons.map(String).join(', ')}</span>
                         </div>
                       )}
                       {crl.crl_date && <div className="text-xs text-gray-400 mt-1">Date: {String(crl.crl_date)}</div>}
@@ -182,10 +182,10 @@ export default function SECFilingsPage() {
                   💊 Pipeline Drugs ({expandedRow.pipeline_drugs.length})
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {expandedRow.pipeline_drugs.map((drug: Record<string, unknown>, i: number) => (
+                  {expandedRow.pipeline_drugs.map((drug, i) => (
                     <div key={i} className="rounded-lg bg-blue-50 p-3 border border-blue-100">
-                      <div className="font-medium text-gray-800">{String(drug.drug_name || drug.name || 'Unknown')}</div>
-                      <div className="text-xs text-gray-600">{String(drug.indication || drug.therapeutic_area || '')}</div>
+                      <div className="font-medium text-gray-800">{String(drug.drug_name ?? drug.name ?? 'Unknown')}</div>
+                      <div className="text-xs text-gray-600">{String(drug.indication ?? drug.therapeutic_area ?? '')}</div>
                       {drug.phase && <div className="text-xs text-blue-600 mt-1">Phase: {String(drug.phase)}</div>}
                       {drug.status && <div className="text-xs text-gray-500">Status: {String(drug.status)}</div>}
                     </div>
@@ -201,9 +201,9 @@ export default function SECFilingsPage() {
                   📜 Patent Expirations ({expandedRow.patent_expirations.length})
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {expandedRow.patent_expirations.map((patent: Record<string, unknown>, i: number) => (
+                  {expandedRow.patent_expirations.map((patent, i) => (
                     <div key={i} className="rounded-lg bg-amber-50 p-3 border border-amber-100">
-                      <div className="font-medium text-gray-800">{String(patent.drug_name || patent.product || 'Unknown')}</div>
+                      <div className="font-medium text-gray-800">{String(patent.drug_name ?? patent.product ?? 'Unknown')}</div>
                       {patent.expiration_date && <div className="text-xs text-amber-700">Expires: {String(patent.expiration_date)}</div>}
                       {patent.patent_number && <div className="text-xs text-gray-500">Patent: {String(patent.patent_number)}</div>}
                     </div>
@@ -219,9 +219,9 @@ export default function SECFilingsPage() {
                   ⚖️ Litigation ({expandedRow.litigation.length})
                 </h4>
                 <div className="space-y-2">
-                  {expandedRow.litigation.map((lit: Record<string, unknown>, i: number) => (
+                  {expandedRow.litigation.map((lit, i) => (
                     <div key={i} className="rounded-lg bg-purple-50 p-3 border border-purple-100">
-                      <div className="font-medium text-gray-800">{String(lit.case_name || lit.description || 'Litigation matter')}</div>
+                      <div className="font-medium text-gray-800">{String(lit.case_name ?? lit.description ?? 'Litigation matter')}</div>
                       {lit.status && <div className="text-xs text-purple-600">Status: {String(lit.status)}</div>}
                       {lit.drug_name && <div className="text-xs text-gray-500">Drug: {String(lit.drug_name)}</div>}
                     </div>
