@@ -24,6 +24,8 @@ import SECFilings from './pages/data/SECFilings';
 import FDACRLs from './pages/data/FDACRLs';
 import EMARefusals from './pages/data/EMARefusals';
 import EUClinicalTrials from './pages/data/EUClinicalTrials';
+import OTInteractions from './pages/data/OTInteractions';
+import OTStudies from './pages/data/OTStudies';
 
 export default function App() {
   return (
@@ -53,6 +55,8 @@ export default function App() {
               <Route path="/data/fda-crls" element={<FDACRLs />} />
               <Route path="/data/ema-refusals" element={<EMARefusals />} />
               <Route path="/data/eu-clinical-trials" element={<EUClinicalTrials />} />
+              <Route path="/data/ot-interactions" element={<OTInteractions />} />
+              <Route path="/data/ot-studies" element={<OTStudies />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
