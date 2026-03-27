@@ -120,6 +120,11 @@ export interface SECFiling {
   crl_count: number;
   pipeline_count: number;
   patent_count: number;
+  litigation_count?: number;
+  crls?: Record<string, unknown>[];
+  pipeline_drugs?: Record<string, unknown>[];
+  patent_expirations?: Record<string, unknown>[];
+  litigation?: Record<string, unknown>[];
 }
 
 export interface FDACRL {
