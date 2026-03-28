@@ -95,20 +95,20 @@ export default function AACTBrowse() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link to="/data" className="text-gray-400 hover:text-white"><ArrowLeft size={20} /></Link>
+        <Link to="/data" className="text-gray-500 hover:text-gray-900"><ArrowLeft size={20} /></Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">ClinicalTrials.gov (AACT)</h1>
-          <p className="text-gray-400">577,713 studies from the largest clinical trial registry</p>
+          <h1 className="font-display text-lg font-semibold text-gray-800">ClinicalTrials.gov (AACT)</h1>
+          <p className="text-gray-500">577,713 studies from the largest clinical trial registry</p>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-2 border-b border-gray-700 pb-2">
+      <div className="flex gap-2 border-b border-gray-200 pb-2">
         {AACT_TABLES.map(t => (
           <button key={t.key}
             onClick={() => { setActiveTab(t.key); setFilterValues({}); setAppliedFilters({}); setPage(1); }}
             className={`px-4 py-2 rounded-t text-sm font-medium transition-colors ${
-              activeTab === t.key ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'
+              activeTab === t.key ? 'bg-gray-200 text-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-white'
             }`}>
             {t.label}
           </button>
@@ -121,9 +121,9 @@ export default function AACTBrowse() {
           <div className="flex flex-wrap gap-3 items-end">
             {table.filters.map(f => (
               <div key={f.key} className="flex flex-col gap-1">
-                <label className="text-xs text-gray-400">{f.label}</label>
+                <label className="text-xs text-gray-500">{f.label}</label>
                 <input
-                  className="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-sm text-white w-40"
+                  className="bg-white border border-gray-300 rounded px-3 py-1.5 text-sm text-gray-800 w-40"
                   placeholder={f.label + '...'}
                   value={filterValues[f.key] || ''}
                   onChange={e => setFilterValues(prev => ({ ...prev, [f.key]: e.target.value }))}
@@ -143,13 +143,13 @@ export default function AACTBrowse() {
       <Card>
         <div className="p-4">
           <div className="flex justify-between items-center mb-4">
-            <p className="text-sm text-gray-400">{data.total.toLocaleString()} results</p>
+            <p className="text-sm text-gray-500">{data.total.toLocaleString()} results</p>
             <div className="flex gap-2">
               <button disabled={page === 1} onClick={() => setPage(page - 1)}
-                className="px-3 py-1 text-sm rounded bg-gray-700 text-white disabled:opacity-40">Prev</button>
-              <span className="text-sm text-gray-400 py-1">Page {page + 1}</span>
+                className="px-3 py-1 text-sm rounded bg-gray-200 text-gray-800 disabled:opacity-40">Prev</button>
+              <span className="text-sm text-gray-500 py-1">Page {page + 1}</span>
               <button disabled={data.data.length < perPage} onClick={() => setPage(page + 1)}
-                className="px-3 py-1 text-sm rounded bg-gray-700 text-white disabled:opacity-40">Next</button>
+                className="px-3 py-1 text-sm rounded bg-gray-200 text-gray-800 disabled:opacity-40">Next</button>
             </div>
           </div>
           <DataTable columns={columns} data={data.data} isLoading={loading} />
