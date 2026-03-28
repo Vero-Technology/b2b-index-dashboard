@@ -49,6 +49,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   pharmgkb_genes: '/data/pharmgkb',
   pharmgkb_drugs: '/data/pharmgkb',
   pharmgkb_drug_labels: '/data/pharmgkb',
+  pharmgkb_variants: '/data/pharmgkb',
 };
 
 export default function SourceDetail() {

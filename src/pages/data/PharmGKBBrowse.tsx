@@ -66,6 +66,17 @@ const PHARMGKB_TABLES = [
       { key: 'testing_level', label: 'Testing Level', type: 'select' as const, options: ['Testing required', 'Testing recommended', 'Actionable PGx', 'Informative PGx'] },
     ],
   },
+  {
+    key: 'variants',
+    label: 'Variants',
+    endpoint: 'pharmgkb_variants',
+    columns: ['variant_name', 'gene_symbols', 'location', 'clinical_annotation_count', 'variant_annotation_count', 'level_1_2_clinical_annotation_count', 'guideline_annotation_count', 'label_annotation_count'],
+    headers: { variant_name: 'Variant', gene_symbols: 'Gene(s)', location: 'Location', clinical_annotation_count: 'Clinical Ann.', variant_annotation_count: 'Variant Ann.', level_1_2_clinical_annotation_count: 'Level 1-2 Ann.', guideline_annotation_count: 'Guidelines', label_annotation_count: 'Labels' } as Record<string, string>,
+    filters: [
+      { key: 'gene', label: 'Gene', type: 'text' as const },
+      { key: 'variant', label: 'Variant', type: 'text' as const },
+    ],
+  },
 ];
 
 export default function PharmGKBBrowsePage() {
