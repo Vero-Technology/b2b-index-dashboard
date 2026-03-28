@@ -50,6 +50,10 @@ const BROWSE_ROUTES: Record<string, string> = {
   pharmgkb_drugs: '/data/pharmgkb',
   pharmgkb_drug_labels: '/data/pharmgkb',
   pharmgkb_variants: '/data/pharmgkb',
+  ctgov_studies: '/data/aact',
+  ctgov_conditions: '/data/aact',
+  ctgov_interventions: '/data/aact',
+  ctgov_sponsors: '/data/aact',
 };
 
 export default function SourceDetail() {

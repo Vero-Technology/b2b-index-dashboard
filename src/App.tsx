@@ -31,6 +31,7 @@ import PharmGKBBrowse from './pages/data/PharmGKBBrowse';
 import DisGeNETBrowse from './pages/data/DisGeNETBrowse';
 import CrossRefExplorer from './pages/data/CrossRefExplorer';
 import USPTOPatents from './pages/data/USPTOPatents';
+import AACTBrowse from './pages/data/AACTBrowse';
 
 export default function App() {
   return (
@@ -73,6 +74,7 @@ export default function App() {
               <Route path="/data/disgenet" element={<DisGeNETBrowse />} />
               <Route path="/data/xref" element={<CrossRefExplorer />} />
               <Route path="/data/uspto-patents" element={<USPTOPatents />} />
+              <Route path="/data/aact" element={<AACTBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
