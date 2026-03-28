@@ -126,7 +126,13 @@ export default function OTGenericBrowsePage() {
           render: (row: Record<string, unknown>) => {
             const val = row[k];
             if (val === null || val === undefined) return <span className="text-gray-300">—</span>;
-            if (typeof val === 'number') return <span className="font-mono">{val.toLocaleString()}</span>;
+            if (typeof val === 'number') {
+              // Don't add commas to years or small IDs
+              const formatted = (k === 'year' || k.endsWith('_year') || (val > 1900 && val < 2200 && k.toLowerCase().includes('year')))
+                ? String(val)
+                : val.toLocaleString();
+              return <span className="font-mono">{formatted}</span>;
+            }
             const str = String(val);
             return <span className="line-clamp-2">{str.length > 100 ? str.slice(0, 100) + '…' : str}</span>;
           },
