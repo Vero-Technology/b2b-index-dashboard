@@ -24,7 +24,6 @@ import SECFilings from './pages/data/SECFilings';
 import FDACRLs from './pages/data/FDACRLs';
 import EMARefusals from './pages/data/EMARefusals';
 import EUClinicalTrials from './pages/data/EUClinicalTrials';
-import OTInteractions from './pages/data/OTInteractions';
 import OTStudies from './pages/data/OTStudies';
 import OTGenericBrowse from './pages/data/OTGenericBrowse';
 import ChEMBLBrowse from './pages/data/ChEMBLBrowse';
