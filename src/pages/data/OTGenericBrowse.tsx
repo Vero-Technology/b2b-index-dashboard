@@ -22,8 +22,8 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
   'ot-literature': {
     label: 'Literature',
     endpoint: 'ot_literature',
-    columns: ['pmid', 'pmcid', 'date', 'year', 'keywordid', 'keywordtype', 'relevance'],
-    headers: { pmid: 'PMID', pmcid: 'PMCID', date: 'Date', year: 'Year', keywordid: 'Keyword', keywordtype: 'Type', relevance: 'Relevance' },
+    columns: ['pmid', 'pmcid', 'date', 'year', 'keyword_name', 'keyword_type_label', 'relevance'],
+    headers: { pmid: 'PMID', pmcid: 'PMCID', date: 'Date', year: 'Year', keyword_name: 'Keyword', keyword_type_label: 'Type', relevance: 'Relevance' },
   },
   'ot-colocalisation': {
     label: 'Colocalisation',
