@@ -1,14 +1,14 @@
 import client from './client';
-import type { ScraperStatus, ScraperGrouped, Worker, TableCount } from '../types/api';
+import type { ScraperStatus, CategoryGrouped, Worker, TableCount } from '../types/api';
 
 export async function getScraperStatuses(): Promise<ScraperStatus[]> {
   const { data } = await client.get<{ scrapers: ScraperStatus[] }>('/api/scrapers/status');
   return data.scrapers;
 }
 
-export async function getScrapersGrouped(): Promise<ScraperGrouped[]> {
-  const { data } = await client.get<{ datasets: ScraperGrouped[] }>('/api/scrapers/grouped');
-  return data.datasets;
+export async function getScrapersGrouped(): Promise<CategoryGrouped[]> {
+  const { data } = await client.get<{ categories: CategoryGrouped[] }>('/api/scrapers/grouped');
+  return data.categories;
 }
 
 export async function getWorkers(): Promise<Worker[]> {

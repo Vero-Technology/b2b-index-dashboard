@@ -14,6 +14,7 @@ import { Card } from '../components/ui/Card';
 import { GaugeBar } from '../components/ui/GaugeBar';
 import { DatasetGroup } from '../components/scrapers/DatasetGroup';
 import { POLL_INTERVALS } from '../lib/constants';
+import type { CategoryGrouped } from '../types/api';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -117,11 +118,11 @@ export default function Dashboard() {
             </div>
           </Card>
         ) : (
-          <div className="space-y-4">
-            {datasets.map((ds) => (
-              <DatasetGroup
-                key={ds.dataset}
-                dataset={ds}
+          <div className="space-y-6">
+            {datasets.map((cat) => (
+              <CategorySection
+                key={cat.category}
+                category={cat}
                 onScraperClick={(source) => navigate(`/scrapers/${source}`)}
               />
             ))}
@@ -144,6 +145,37 @@ export default function Dashboard() {
           </div>
         </Card>
       )}
+    </div>
+  );
+}
+
+function CategorySection({
+  category: cat,
+  onScraperClick,
+}: {
+  category: CategoryGrouped;
+  onScraperClick?: (source: string) => void;
+}) {
+  const totalRecords = cat.totals.unique || cat.totals.scraped;
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-sm font-semibold text-gray-700">
+          {cat.category}
+        </h3>
+        <span className="font-mono text-xs text-gray-400">
+          {totalRecords.toLocaleString()} records
+        </span>
+      </div>
+      <div className="space-y-3">
+        {cat.datasets.map((ds) => (
+          <DatasetGroup
+            key={ds.dataset}
+            dataset={ds}
+            onScraperClick={onScraperClick}
+          />
+        ))}
+      </div>
     </div>
   );
 }
