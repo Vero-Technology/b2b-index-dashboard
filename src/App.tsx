@@ -27,6 +27,8 @@ import EUClinicalTrials from './pages/data/EUClinicalTrials';
 import OTStudies from './pages/data/OTStudies';
 import OTGenericBrowse from './pages/data/OTGenericBrowse';
 import ChEMBLBrowse from './pages/data/ChEMBLBrowse';
+import PharmGKBBrowse from './pages/data/PharmGKBBrowse';
+import DisGeNETBrowse from './pages/data/DisGeNETBrowse';
 import USPTOPatents from './pages/data/USPTOPatents';
 
 export default function App() {
@@ -66,6 +68,8 @@ export default function App() {
               <Route path="/data/ot-pharmacogenomics" element={<OTGenericBrowse />} />
               <Route path="/data/ot-target-prioritisation" element={<OTGenericBrowse />} />
               <Route path="/data/chembl" element={<ChEMBLBrowse />} />
+              <Route path="/data/pharmgkb" element={<PharmGKBBrowse />} />
+              <Route path="/data/disgenet" element={<DisGeNETBrowse />} />
               <Route path="/data/uspto-patents" element={<USPTOPatents />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
