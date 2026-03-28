@@ -29,6 +29,7 @@ import OTGenericBrowse from './pages/data/OTGenericBrowse';
 import ChEMBLBrowse from './pages/data/ChEMBLBrowse';
 import PharmGKBBrowse from './pages/data/PharmGKBBrowse';
 import DisGeNETBrowse from './pages/data/DisGeNETBrowse';
+import CrossRefExplorer from './pages/data/CrossRefExplorer';
 import USPTOPatents from './pages/data/USPTOPatents';
 
 export default function App() {
@@ -70,6 +71,7 @@ export default function App() {
               <Route path="/data/chembl" element={<ChEMBLBrowse />} />
               <Route path="/data/pharmgkb" element={<PharmGKBBrowse />} />
               <Route path="/data/disgenet" element={<DisGeNETBrowse />} />
+              <Route path="/data/xref" element={<CrossRefExplorer />} />
               <Route path="/data/uspto-patents" element={<USPTOPatents />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
