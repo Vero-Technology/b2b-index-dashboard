@@ -42,6 +42,13 @@ const BROWSE_ROUTES: Record<string, string> = {
   chembl_mechanisms: '/data/chembl',
   chembl_indications: '/data/chembl',
   uspto_pharma_patents: '/data/uspto-patents',
+  disgenet_gda: '/data/disgenet',
+  disgenet_disease_mappings: '/data/disgenet',
+  pharmgkb_relationships: '/data/pharmgkb',
+  pharmgkb_clinical_annotations: '/data/pharmgkb',
+  pharmgkb_genes: '/data/pharmgkb',
+  pharmgkb_drugs: '/data/pharmgkb',
+  pharmgkb_drug_labels: '/data/pharmgkb',
 };
 
 export default function SourceDetail() {
