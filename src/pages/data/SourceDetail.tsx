@@ -60,6 +60,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   ot_association_by_datasource_indirect: '/data/ot-associations',
   ot_association_by_datatype_direct: '/data/ot-associations',
   ot_association_by_datatype_indirect: '/data/ot-associations',
+  ictrp_trials: '/data/ictrp',
 };
 
 export default function SourceDetail() {

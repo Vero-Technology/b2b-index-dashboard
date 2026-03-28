@@ -33,6 +33,7 @@ import CrossRefExplorer from './pages/data/CrossRefExplorer';
 import USPTOPatents from './pages/data/USPTOPatents';
 import AACTBrowse from './pages/data/AACTBrowse';
 import OTAssociationBrowse from './pages/data/OTAssociationBrowse';
+import ICTRPBrowse from './pages/data/ICTRPBrowse';
 
 export default function App() {
   return (
@@ -77,6 +78,7 @@ export default function App() {
               <Route path="/data/uspto-patents" element={<USPTOPatents />} />
               <Route path="/data/aact" element={<AACTBrowse />} />
               <Route path="/data/ot-associations" element={<OTAssociationBrowse />} />
+              <Route path="/data/ictrp" element={<ICTRPBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
