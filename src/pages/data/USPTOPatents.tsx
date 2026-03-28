@@ -64,7 +64,7 @@ export default function USPTOPatents() {
 
   const SortHeader = ({ col, label }: { col: string; label: string }) => (
     <th
-      className="px-3 py-2 text-left cursor-pointer hover:text-blue-400 select-none"
+      className="px-3 py-2 text-left cursor-pointer hover:text-accent select-none"
       onClick={() => handleSort(col)}
     >
       {label} {sort === col ? (order === 'desc' ? '↓' : '↑') : ''}
@@ -74,11 +74,11 @@ export default function USPTOPatents() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <Link to="/" className="text-gray-400 hover:text-white">
+        <Link to="/" className="text-gray-400 hover:text-gray-700">
           <ArrowLeft size={20} />
         </Link>
         <h1 className="text-xl font-bold">USPTO Pharma Patents</h1>
-        <span className="text-sm text-gray-400">
+        <span className="text-sm text-gray-500">
           {total.toLocaleString()} patents
         </span>
       </div>
@@ -99,7 +99,7 @@ export default function USPTOPatents() {
                 setSearch(e.target.value);
                 setPage(0);
               }}
-              className="w-full pl-9 pr-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm"
+              className="w-full pl-9 pr-3 py-2 rounded-lg border border-surface-700 bg-surface-950 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
             />
           </div>
           <input
@@ -110,7 +110,7 @@ export default function USPTOPatents() {
               setAssignee(e.target.value);
               setPage(0);
             }}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm"
+            className="w-full px-3 py-2 rounded-lg border border-surface-700 bg-surface-950 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
           />
           <input
             type="number"
@@ -120,7 +120,7 @@ export default function USPTOPatents() {
               setYearFrom(e.target.value);
               setPage(0);
             }}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm"
+            className="w-full px-3 py-2 rounded-lg border border-surface-700 bg-surface-950 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
           />
           <input
             type="number"
@@ -130,7 +130,7 @@ export default function USPTOPatents() {
               setYearTo(e.target.value);
               setPage(0);
             }}
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm"
+            className="w-full px-3 py-2 rounded-lg border border-surface-700 bg-surface-950 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
           />
         </div>
       </Card>
@@ -138,7 +138,7 @@ export default function USPTOPatents() {
       {/* Table */}
       <Card className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="border-b border-gray-700 text-gray-400 text-xs uppercase">
+          <thead className="border-b border-surface-200 text-gray-500 text-xs uppercase">
             <tr>
               <th className="px-3 py-2 text-left">Patent ID</th>
               <th className="px-3 py-2 text-left">Title</th>
@@ -152,13 +152,13 @@ export default function USPTOPatents() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} className="px-3 py-8 text-center text-gray-400">
+                <td colSpan={7} className="px-3 py-8 text-center text-gray-500">
                   Loading...
                 </td>
               </tr>
             ) : data.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-3 py-8 text-center text-gray-400">
+                <td colSpan={7} className="px-3 py-8 text-center text-gray-500">
                   No patents found
                 </td>
               </tr>
@@ -166,7 +166,7 @@ export default function USPTOPatents() {
               data.map((p) => (
                 <tr
                   key={p.patent_id}
-                  className="border-b border-gray-800 hover:bg-gray-800/50"
+                  className="border-b border-surface-100 hover:bg-surface-50"
                 >
                   <td className="px-3 py-2">
                     <a
@@ -194,7 +194,7 @@ export default function USPTOPatents() {
                       {p.cpc_codes?.slice(0, 3).map((c) => (
                         <span
                           key={c}
-                          className="px-1.5 py-0.5 bg-gray-700 rounded text-xs"
+                          className="px-1.5 py-0.5 bg-surface-100 border border-surface-200 rounded text-xs text-gray-600"
                         >
                           {c}
                         </span>
@@ -215,7 +215,7 @@ export default function USPTOPatents() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-gray-400">
+        <div className="flex items-center justify-between text-sm text-gray-500">
           <span>
             Page {page + 1} of {totalPages.toLocaleString()}
           </span>
@@ -223,14 +223,14 @@ export default function USPTOPatents() {
             <button
               onClick={() => setPage(Math.max(0, page - 1))}
               disabled={page === 0}
-              className="p-1 hover:text-white disabled:opacity-30"
+              className="p-1 hover:text-gray-700 disabled:opacity-30"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
               disabled={page >= totalPages - 1}
-              className="p-1 hover:text-white disabled:opacity-30"
+              className="p-1 hover:text-gray-700 disabled:opacity-30"
             >
               <ChevronRight size={18} />
             </button>
