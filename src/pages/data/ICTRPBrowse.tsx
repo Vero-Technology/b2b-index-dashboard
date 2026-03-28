@@ -64,7 +64,7 @@ export default function ICTRPBrowse() {
         <Link to="/data" className="text-gray-400 hover:text-gray-600"><ArrowLeft size={20} /></Link>
         <div>
           <h1 className="font-display text-lg font-semibold text-gray-800">WHO ICTRP International Trials</h1>
-          <p className="text-gray-500">149,735 trials from 14 registries worldwide (excl. US/EU)</p>
+          <p className="text-gray-500">242,833 trials from 15 registries worldwide (excl. US/EU)</p>
         </div>
       </div>
 
