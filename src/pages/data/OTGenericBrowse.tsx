@@ -34,8 +34,8 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
   'ot-disease-phenotype': {
     label: 'Disease Phenotypes',
     endpoint: 'ot_disease_phenotype',
-    columns: ['disease_name', 'diseaseid', 'phenotype'],
-    headers: { disease_name: 'Disease', diseaseid: 'Disease ID', phenotype: 'Phenotype' },
+    columns: ['disease_name', 'phenotype_name', 'diseaseid', 'phenotype'],
+    headers: { disease_name: 'Disease', phenotype_name: 'Phenotype', diseaseid: 'Disease ID', phenotype: 'Phenotype ID' },
   },
   'ot-mouse-phenotype': {
     label: 'Mouse Phenotypes',
