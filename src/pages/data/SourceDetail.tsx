@@ -41,6 +41,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   chembl_targets: '/data/chembl',
   chembl_mechanisms: '/data/chembl',
   chembl_indications: '/data/chembl',
+  uspto_pharma_patents: '/data/uspto-patents',
 };
 
 export default function SourceDetail() {
