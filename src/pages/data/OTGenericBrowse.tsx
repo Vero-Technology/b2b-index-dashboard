@@ -28,8 +28,8 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
   'ot-colocalisation': {
     label: 'Colocalisation',
     endpoint: 'ot_colocalisation',
-    columns: ['leftstudyid', 'rightstudyid', 'leftgeneentrezid', 'rightgeneentrezid', 'chromosome', 'colocalisationmethod', 'h4', 'log2h4h3'],
-    headers: { leftstudyid: 'Left Study', rightstudyid: 'Right Study', leftgeneentrezid: 'Left Gene', rightgeneentrezid: 'Right Gene', chromosome: 'Chr', colocalisationmethod: 'Method', h4: 'H4', log2h4h3: 'log2(H4/H3)' },
+    columns: ['leftstudylocusid', 'rightstudylocusid', 'rightstudytype', 'chromosome', 'colocalisationmethod', 'numbercolocalisingvariants', 'h4', 'clpp'],
+    headers: { leftstudylocusid: 'Left Study Locus', rightstudylocusid: 'Right Study Locus', rightstudytype: 'Right Study Type', chromosome: 'Chr', colocalisationmethod: 'Method', numbercolocalisingvariants: 'Coloc. Variants', h4: 'H4', clpp: 'CLPP' },
   },
   'ot-disease-phenotype': {
     label: 'Disease Phenotypes',
