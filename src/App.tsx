@@ -27,6 +27,7 @@ import EUClinicalTrials from './pages/data/EUClinicalTrials';
 import OTInteractions from './pages/data/OTInteractions';
 import OTStudies from './pages/data/OTStudies';
 import OTGenericBrowse from './pages/data/OTGenericBrowse';
+import ChEMBLBrowse from './pages/data/ChEMBLBrowse';
 
 export default function App() {
   return (
@@ -64,11 +65,7 @@ export default function App() {
               <Route path="/data/ot-mouse-phenotype" element={<OTGenericBrowse />} />
               <Route path="/data/ot-pharmacogenomics" element={<OTGenericBrowse />} />
               <Route path="/data/ot-target-prioritisation" element={<OTGenericBrowse />} />
-              <Route path="/data/chembl-molecules" element={<OTGenericBrowse />} />
-              <Route path="/data/chembl-activities" element={<OTGenericBrowse />} />
-              <Route path="/data/chembl-targets" element={<OTGenericBrowse />} />
-              <Route path="/data/chembl-mechanisms" element={<OTGenericBrowse />} />
-              <Route path="/data/chembl-indications" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl" element={<ChEMBLBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
