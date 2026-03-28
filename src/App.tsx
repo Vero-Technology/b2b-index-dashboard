@@ -57,7 +57,7 @@ export default function App() {
               <Route path="/data/fda-crls" element={<FDACRLs />} />
               <Route path="/data/ema-refusals" element={<EMARefusals />} />
               <Route path="/data/eu-clinical-trials" element={<EUClinicalTrials />} />
-              <Route path="/data/ot-interactions" element={<OTInteractions />} />
+              <Route path="/data/ot-interactions" element={<OTGenericBrowse />} />
               <Route path="/data/ot-studies" element={<OTStudies />} />
               <Route path="/data/ot-literature" element={<OTGenericBrowse />} />
               <Route path="/data/ot-colocalisation" element={<OTGenericBrowse />} />
