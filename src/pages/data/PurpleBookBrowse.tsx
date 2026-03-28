@@ -31,14 +31,60 @@ interface PurpleBookEntry {
   patent_list: string;
 }
 
+interface PatentEntry {
+  id: number;
+  ref_prod_bla_number: number;
+  applicant_name: string;
+  proprietary_name: string;
+  proper_name: string;
+  patent_number: string;
+  patent_exp_date: string;
+  patent_exp_date_raw: string;
+}
+
 interface BrowseResponse {
-  data: PurpleBookEntry[];
+  data: PurpleBookEntry[] | PatentEntry[];
   total: number;
   limit: number;
   offset: number;
 }
 
+type Tab = 'products' | 'patents';
+
 export default function PurpleBookBrowse() {
+  const [activeTab, setActiveTab] = useState<Tab>('products');
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-3">
+        <Link to="/data" className="rounded-lg p-1.5 text-gray-400 hover:bg-surface-800 hover:text-gray-700">
+          <ArrowLeft size={16} />
+        </Link>
+        <h1 className="font-display text-lg font-semibold text-gray-800">FDA Purple Book — Licensed Biological Products</h1>
+      </div>
+
+      <div className="flex gap-1 rounded-lg bg-gray-100 p-1">
+        {(['products', 'patents'] as Tab[]).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === tab
+                ? 'bg-white text-gray-800 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {tab === 'products' ? 'Products' : 'Patents'}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === 'products' ? <ProductsTab /> : <PatentsTab />}
+    </div>
+  );
+}
+
+function ProductsTab() {
   const [searchFilter, setSearchFilter] = useState('');
   const [applicantFilter, setApplicantFilter] = useState('');
   const [licenseTypeFilter, setLicenseTypeFilter] = useState('');
@@ -58,7 +104,7 @@ export default function PurpleBookBrowse() {
           offset: pagination.offset,
         },
       });
-      setData(result.data);
+      setData(result.data as PurpleBookEntry[]);
       pagination.setTotal(result.total);
     } catch {
       setData([]);
@@ -88,14 +134,7 @@ export default function PurpleBookBrowse() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Link to="/data" className="rounded-lg p-1.5 text-gray-400 hover:bg-surface-800 hover:text-gray-700">
-          <ArrowLeft size={16} />
-        </Link>
-        <h1 className="font-display text-lg font-semibold text-gray-800">FDA Purple Book — Licensed Biological Products</h1>
-      </div>
-
+    <>
       <Card title="Filters">
         <div className="flex flex-wrap gap-3">
           <input
@@ -136,6 +175,94 @@ export default function PurpleBookBrowse() {
           emptyMessage="No biological products found"
         />
       </Card>
-    </div>
+    </>
+  );
+}
+
+function PatentsTab() {
+  const [proprietaryFilter, setProprietaryFilter] = useState('');
+  const [properNameFilter, setProperNameFilter] = useState('');
+  const [applicantFilter, setApplicantFilter] = useState('');
+  const [data, setData] = useState<PatentEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const pagination = usePagination(50);
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data: result } = await client.get<BrowseResponse>('/api/data/browse_purple_book_patents', {
+        params: {
+          proprietary_name: proprietaryFilter || undefined,
+          proper_name: properNameFilter || undefined,
+          applicant_name: applicantFilter || undefined,
+          limit: pagination.perPage,
+          offset: pagination.offset,
+        },
+      });
+      setData(result.data as PatentEntry[]);
+      pagination.setTotal(result.total);
+    } catch {
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [proprietaryFilter, properNameFilter, applicantFilter, pagination.perPage, pagination.offset]);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  const columns: Column<PatentEntry>[] = [
+    { key: 'patent_number', header: 'Patent #', mono: true, className: 'w-28' },
+    { key: 'patent_exp_date', header: 'Expiry Date', className: 'w-32', render: (row) => {
+      if (!row.patent_exp_date) return '—';
+      const d = new Date(row.patent_exp_date);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }},
+    { key: 'proprietary_name', header: 'Brand Name', render: (row) => <span className="font-medium">{row.proprietary_name || '—'}</span> },
+    { key: 'proper_name', header: 'Proper Name', render: (row) => <div className="max-w-xs truncate" title={row.proper_name}>{row.proper_name}</div> },
+    { key: 'applicant_name', header: 'Applicant', render: (row) => <div className="max-w-xs truncate text-gray-500" title={row.applicant_name}>{row.applicant_name}</div> },
+    { key: 'ref_prod_bla_number', header: 'BLA #', mono: true, className: 'w-20' },
+  ];
+
+  return (
+    <>
+      <Card title="Filters">
+        <div className="flex flex-wrap gap-3">
+          <input
+            type="text"
+            placeholder="Brand name..."
+            value={proprietaryFilter}
+            onChange={(e) => { setProprietaryFilter(e.target.value); pagination.setPage(1); }}
+            className="rounded-lg border border-surface-700 bg-surface-950 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
+          />
+          <input
+            type="text"
+            placeholder="Proper name..."
+            value={properNameFilter}
+            onChange={(e) => { setProperNameFilter(e.target.value); pagination.setPage(1); }}
+            className="rounded-lg border border-surface-700 bg-surface-950 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
+          />
+          <input
+            type="text"
+            placeholder="Applicant..."
+            value={applicantFilter}
+            onChange={(e) => { setApplicantFilter(e.target.value); pagination.setPage(1); }}
+            className="rounded-lg border border-surface-700 bg-surface-950 px-3 py-2 text-sm text-gray-800 placeholder-gray-300 outline-none focus:border-accent focus:ring-1 focus:ring-accent/20"
+          />
+        </div>
+      </Card>
+
+      <Card title="Results" padding={false}>
+        <DataTable
+          columns={columns}
+          data={data}
+          isLoading={loading}
+          page={pagination.page}
+          totalPages={pagination.totalPages}
+          total={pagination.total}
+          onPageChange={pagination.setPage}
+          emptyMessage="No patent records found"
+        />
+      </Card>
+    </>
   );
 }
