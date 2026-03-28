@@ -46,8 +46,8 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
   'ot-pharmacogenomics': {
     label: 'Pharmacogenomics',
     endpoint: 'ot_pharmacogenomics',
-    columns: ['gene_symbol', 'drugs', 'variantid', 'evidencelevel', 'phenotypetext', 'pgxcategory', 'datasourceid'],
-    headers: { gene_symbol: 'Gene', drugs: 'Drugs', variantid: 'Variant', evidencelevel: 'Evidence', phenotypetext: 'Phenotype', pgxcategory: 'Category', datasourceid: 'Source' },
+    columns: ['gene_symbol', 'drug_names', 'variant', 'evidencelevel', 'phenotypetext', 'pgxcategory', 'datasourceid'],
+    headers: { gene_symbol: 'Gene', drug_names: 'Drugs', variant: 'Variant', evidencelevel: 'Evidence', phenotypetext: 'Phenotype', pgxcategory: 'Category', datasourceid: 'Source' },
   },
   'ot-target-prioritisation': {
     label: 'Target Prioritisation',
