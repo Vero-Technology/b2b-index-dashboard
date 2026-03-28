@@ -54,6 +54,12 @@ const BROWSE_ROUTES: Record<string, string> = {
   ctgov_conditions: '/data/aact',
   ctgov_interventions: '/data/aact',
   ctgov_sponsors: '/data/aact',
+  ot_association_overall_direct: '/data/ot-associations',
+  ot_association_overall_indirect: '/data/ot-associations',
+  ot_association_by_datasource_direct: '/data/ot-associations',
+  ot_association_by_datasource_indirect: '/data/ot-associations',
+  ot_association_by_datatype_direct: '/data/ot-associations',
+  ot_association_by_datatype_indirect: '/data/ot-associations',
 };
 
 export default function SourceDetail() {

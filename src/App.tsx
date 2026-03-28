@@ -32,6 +32,7 @@ import DisGeNETBrowse from './pages/data/DisGeNETBrowse';
 import CrossRefExplorer from './pages/data/CrossRefExplorer';
 import USPTOPatents from './pages/data/USPTOPatents';
 import AACTBrowse from './pages/data/AACTBrowse';
+import OTAssociationBrowse from './pages/data/OTAssociationBrowse';
 
 export default function App() {
   return (
@@ -75,6 +76,7 @@ export default function App() {
               <Route path="/data/xref" element={<CrossRefExplorer />} />
               <Route path="/data/uspto-patents" element={<USPTOPatents />} />
               <Route path="/data/aact" element={<AACTBrowse />} />
+              <Route path="/data/ot-associations" element={<OTAssociationBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
