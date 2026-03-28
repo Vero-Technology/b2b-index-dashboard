@@ -64,6 +64,11 @@ export default function App() {
               <Route path="/data/ot-mouse-phenotype" element={<OTGenericBrowse />} />
               <Route path="/data/ot-pharmacogenomics" element={<OTGenericBrowse />} />
               <Route path="/data/ot-target-prioritisation" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl-molecules" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl-activities" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl-targets" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl-mechanisms" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl-indications" element={<OTGenericBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>

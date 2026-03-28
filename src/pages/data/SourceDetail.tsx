@@ -35,6 +35,11 @@ const BROWSE_ROUTES: Record<string, string> = {
   ot_mouse_phenotype: '/data/ot-mouse-phenotype',
   ot_pharmacogenomics: '/data/ot-pharmacogenomics',
   ot_target_prioritisation: '/data/ot-target-prioritisation',
+  chembl_activities: '/data/chembl-activities',
+  chembl_molecules: '/data/chembl-molecules',
+  chembl_targets: '/data/chembl-targets',
+  chembl_mechanisms: '/data/chembl-mechanisms',
+  chembl_indications: '/data/chembl-indications',
 };
 
 export default function SourceDetail() {

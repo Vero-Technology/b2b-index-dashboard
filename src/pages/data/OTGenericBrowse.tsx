@@ -55,6 +55,36 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
     columns: ['target_symbol', 'target_name', 'hassafetyevent', 'haspocket', 'hasligand', 'hassmallmoleculebinder', 'iscancerdrivergene', 'maxclinicalstage'],
     headers: { target_symbol: 'Symbol', target_name: 'Target Name', hassafetyevent: 'Safety Event', haspocket: 'Pocket', hasligand: 'Ligand', hassmallmoleculebinder: 'Small Mol.', iscancerdrivergene: 'Cancer Driver', maxclinicalstage: 'Max Clinical' },
   },
+  'chembl-molecules': {
+    label: 'Molecules',
+    endpoint: 'chembl_molecules',
+    columns: ['chembl_id', 'pref_name', 'molecule_type', 'max_phase', 'first_approval', 'therapeutic_flag', 'oral', 'black_box_warning', 'natural_product', 'first_in_class'],
+    headers: { chembl_id: 'ChEMBL ID', pref_name: 'Name', molecule_type: 'Type', max_phase: 'Max Phase', first_approval: 'First Approval', therapeutic_flag: 'Therapeutic', oral: 'Oral', black_box_warning: 'Black Box', natural_product: 'Natural', first_in_class: 'First in Class' },
+  },
+  'chembl-activities': {
+    label: 'Bioactivities',
+    endpoint: 'chembl_activities',
+    columns: ['chembl_id', 'compound_name', 'standard_type', 'standard_relation', 'standard_value', 'standard_units', 'pchembl_value'],
+    headers: { chembl_id: 'ChEMBL ID', compound_name: 'Compound', standard_type: 'Assay Type', standard_relation: 'Relation', standard_value: 'Value', standard_units: 'Units', pchembl_value: 'pChEMBL' },
+  },
+  'chembl-targets': {
+    label: 'Drug Targets',
+    endpoint: 'chembl_targets',
+    columns: ['chembl_id', 'pref_name', 'target_type', 'organism'],
+    headers: { chembl_id: 'ChEMBL ID', pref_name: 'Target Name', target_type: 'Type', organism: 'Organism' },
+  },
+  'chembl-mechanisms': {
+    label: 'Drug Mechanisms',
+    endpoint: 'chembl_mechanisms',
+    columns: ['compound_id', 'compound_name', 'mechanism_of_action', 'action_type', 'direct_interaction', 'target_name', 'target_type', 'organism'],
+    headers: { compound_id: 'Compound ID', compound_name: 'Compound', mechanism_of_action: 'Mechanism', action_type: 'Action', direct_interaction: 'Direct', target_name: 'Target', target_type: 'Target Type', organism: 'Organism' },
+  },
+  'chembl-indications': {
+    label: 'Drug Indications',
+    endpoint: 'chembl_indications',
+    columns: ['chembl_id', 'compound_name', 'max_phase', 'mesh_heading', 'max_phase_for_ind'],
+    headers: { chembl_id: 'ChEMBL ID', compound_name: 'Compound', max_phase: 'Max Phase', mesh_heading: 'Indication', max_phase_for_ind: 'Phase for Indication' },
+  },
 };
 
 export default function OTGenericBrowsePage() {
@@ -122,7 +152,7 @@ export default function OTGenericBrowsePage() {
           <ArrowLeft size={16} />
         </Link>
         <h1 className="font-display text-lg font-semibold text-gray-800">
-          Open Targets — {meta.label}
+          {table?.startsWith('chembl') ? 'ChEMBL' : 'Open Targets'} — {meta.label}
         </h1>
       </div>
 
