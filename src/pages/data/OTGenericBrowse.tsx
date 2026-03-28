@@ -16,14 +16,14 @@ const OT_TABLE_META: Record<string, { label: string; endpoint: string; columns?:
   'ot-studies': {
     label: 'GWAS Studies',
     endpoint: 'ot_studies',
-    columns: ['studyid', 'traitreported', 'traitmapped', 'pubmedid', 'publicationdate', 'numassocloci', 'nsamples', 'source'],
-    headers: { studyid: 'Study ID', traitreported: 'Trait Reported', traitmapped: 'Trait Mapped', pubmedid: 'PubMed', publicationdate: 'Date', numassocloci: 'Loci', nsamples: 'Samples', source: 'Source' },
+    columns: ['studyid', 'traitfromsource', 'studytype', 'pubmedid', 'publicationtitle', 'publicationfirstauthor', 'publicationdate', 'publicationjournal', 'nsamples'],
+    headers: { studyid: 'Study ID', traitfromsource: 'Trait', studytype: 'Type', pubmedid: 'PubMed', publicationtitle: 'Title', publicationfirstauthor: 'First Author', publicationdate: 'Date', publicationjournal: 'Journal', nsamples: 'Samples' },
   },
   'ot-literature': {
     label: 'Literature',
     endpoint: 'ot_literature',
-    columns: ['pmid', 'pmcid', 'journal', 'keyword', 'year'],
-    headers: { pmid: 'PMID', pmcid: 'PMCID', journal: 'Journal', keyword: 'Keyword', year: 'Year' },
+    columns: ['pmid', 'pmcid', 'date', 'year', 'keywordid', 'keywordtype', 'relevance'],
+    headers: { pmid: 'PMID', pmcid: 'PMCID', date: 'Date', year: 'Year', keywordid: 'Keyword', keywordtype: 'Type', relevance: 'Relevance' },
   },
   'ot-colocalisation': {
     label: 'Colocalisation',
