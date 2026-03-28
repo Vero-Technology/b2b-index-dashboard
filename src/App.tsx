@@ -35,6 +35,7 @@ import AACTBrowse from './pages/data/AACTBrowse';
 import OTAssociationBrowse from './pages/data/OTAssociationBrowse';
 import ICTRPBrowse from './pages/data/ICTRPBrowse';
 import PurpleBookBrowse from './pages/data/PurpleBookBrowse';
+import OrangeBookBrowse from './pages/data/OrangeBookBrowse';
 
 export default function App() {
   return (
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="/data/ot-associations" element={<OTAssociationBrowse />} />
               <Route path="/data/ictrp" element={<ICTRPBrowse />} />
               <Route path="/data/purple-book" element={<PurpleBookBrowse />} />
+              <Route path="/data/orange-book" element={<OrangeBookBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>
