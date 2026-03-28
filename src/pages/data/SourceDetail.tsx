@@ -61,6 +61,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   ot_association_by_datatype_direct: '/data/ot-associations',
   ot_association_by_datatype_indirect: '/data/ot-associations',
   ictrp_trials: '/data/ictrp',
+  fda_purple_book: '/data/purple-book',
 };
 
 export default function SourceDetail() {
