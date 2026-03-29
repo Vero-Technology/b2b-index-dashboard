@@ -13,6 +13,7 @@ export interface FieldQuality {
 export interface SourceStatus {
   source: string;
   label: string;
+  category?: string;
   table_name: string;
   row_count: number;
   extraction_type: 'llm' | 'none';

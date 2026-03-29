@@ -153,7 +153,7 @@ export default function SourcesOverview() {
   const grouped = useMemo(() => {
     const groups: Record<string, SourceStatus[]> = {};
     for (const s of filtered) {
-      const cat = SOURCE_CATEGORY[s.source] || 'Other';
+      const cat = s.category || SOURCE_CATEGORY[s.source] || 'Other';
       if (!groups[cat]) groups[cat] = [];
       groups[cat].push(s);
     }
