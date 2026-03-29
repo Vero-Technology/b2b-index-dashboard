@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ScraperDetail from './pages/ScraperDetail';
 import Workers from './pages/Workers';
-import DataBrowser from './pages/DataBrowser';
+// DataBrowser removed — SourcesOverview handles all data browsing
 import Indexes from './pages/Indexes';
 import SystemMonitor from './pages/SystemMonitor';
 import WorkerLaunch from './pages/WorkerLaunch';
@@ -52,7 +52,7 @@ export default function App() {
               <Route path="/workers" element={<Workers />} />
               <Route path="/data" element={<SourcesOverview />} />
               <Route path="/data/source/:source" element={<SourceDetail />} />
-              <Route path="/data/browser" element={<DataBrowser />} />
+              {/* /data/browser removed — SourcesOverview at /data handles everything */}
               <Route path="/data/conference-abstracts" element={<ConferenceAbstracts />} />
               <Route path="/data/fda-applications" element={<FDAApplications />} />
               <Route path="/data/fda-applications/:appNumber" element={<FDAApplicationDetail />} />
