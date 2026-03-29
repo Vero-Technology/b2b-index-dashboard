@@ -56,6 +56,15 @@ const CHEMBL_TABLES = [
   },
 ];
 
+function truncateVector(raw: string, keep = 10): string {
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith('[') || !trimmed.endsWith(']')) return trimmed;
+  const body = trimmed.slice(1, -1);
+  const parts = body.split(',');
+  if (parts.length <= keep) return raw;
+  return `[${parts.slice(0, keep).join(', ')}, ...]`;
+}
+
 export default function ChEMBLBrowsePage() {
   const [activeTab, setActiveTab] = useState(CHEMBL_TABLES[0].key);
   const [searchFilter, setSearchFilter] = useState('');
@@ -71,14 +80,15 @@ export default function ChEMBLBrowsePage() {
   const columns: Column<Record<string, unknown>>[] = activeTable.columns.map(k => ({
     key: k,
     header: activeTable.headers[k] || k.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
-    className: k === 'mechanism_embedding' ? 'text-xs min-w-[420px]' : 'text-xs',
+    className: k === 'mechanism_embedding' ? 'text-xs min-w-[260px]' : 'text-xs',
     render: (row: Record<string, unknown>) => {
       const val = row[k];
       if (val === null || val === undefined) return <span className="text-gray-300">—</span>;
       if (typeof val === 'number') return <span className="font-mono">{val.toLocaleString()}</span>;
       const str = String(val);
       if (k === 'mechanism_embedding') {
-        return <span className="font-mono text-[10px] leading-relaxed break-all">{str}</span>;
+        const preview = truncateVector(str, 10);
+        return <span className="font-mono text-[10px] leading-relaxed break-all" title={str}>{preview}</span>;
       }
       return <span className="line-clamp-2">{str.length > 100 ? str.slice(0, 100) + '…' : str}</span>;
     },
