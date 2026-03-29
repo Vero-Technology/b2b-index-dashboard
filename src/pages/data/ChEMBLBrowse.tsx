@@ -40,8 +40,8 @@ const CHEMBL_TABLES = [
     key: 'mechanisms',
     label: 'Drug Mechanisms',
     endpoint: 'chembl_mechanisms',
-    columns: ['compound_id', 'compound_name', 'mechanism_of_action', 'action_type', 'direct_interaction', 'target_name', 'target_type', 'organism'],
-    headers: { compound_id: 'Compound ID', compound_name: 'Compound', mechanism_of_action: 'Mechanism', action_type: 'Action', direct_interaction: 'Direct', target_name: 'Target', target_type: 'Target Type', organism: 'Organism' } as Record<string, string>,
+    columns: ['compound_id', 'compound_name', 'mechanism_of_action', 'action_type', 'direct_interaction', 'target_name', 'target_type', 'organism', 'mechanism_embedding_model', 'mechanism_embedding'],
+    headers: { compound_id: 'Compound ID', compound_name: 'Compound', mechanism_of_action: 'Mechanism', action_type: 'Action', direct_interaction: 'Direct', target_name: 'Target', target_type: 'Target Type', organism: 'Organism', mechanism_embedding_model: 'Embedding Model', mechanism_embedding: 'Embedding Vector' } as Record<string, string>,
     searchParam: 'search',
     searchPlaceholder: 'Search compound, mechanism, or target...',
   },
@@ -71,12 +71,15 @@ export default function ChEMBLBrowsePage() {
   const columns: Column<Record<string, unknown>>[] = activeTable.columns.map(k => ({
     key: k,
     header: activeTable.headers[k] || k.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
-    className: 'text-xs',
+    className: k === 'mechanism_embedding' ? 'text-xs min-w-[420px]' : 'text-xs',
     render: (row: Record<string, unknown>) => {
       const val = row[k];
       if (val === null || val === undefined) return <span className="text-gray-300">—</span>;
       if (typeof val === 'number') return <span className="font-mono">{val.toLocaleString()}</span>;
       const str = String(val);
+      if (k === 'mechanism_embedding') {
+        return <span className="font-mono text-[10px] leading-relaxed break-all">{str}</span>;
+      }
       return <span className="line-clamp-2">{str.length > 100 ? str.slice(0, 100) + '…' : str}</span>;
     },
   }));
@@ -126,7 +129,6 @@ export default function ChEMBLBrowsePage() {
         </h1>
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-1 rounded-xl bg-surface-900 p-1">
         {CHEMBL_TABLES.map(t => (
           <button
