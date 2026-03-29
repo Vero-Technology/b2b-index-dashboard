@@ -5,6 +5,8 @@ import { Card } from '../../components/ui/Card';
 import { DataTable, type Column } from '../../components/ui/DataTable';
 import { usePagination } from '../../hooks/usePagination';
 import client from '../../api/client';
+import { getSourcesStatus } from '../../api/data';
+import type { SourceStatus } from '../../types/data';
 
 const CHEMBL_TABLES = [
   {
@@ -59,9 +61,12 @@ export default function ChEMBLBrowsePage() {
   const [searchFilter, setSearchFilter] = useState('');
   const [data, setData] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sourceStatuses, setSourceStatuses] = useState<SourceStatus[]>([]);
   const pagination = usePagination(50);
 
   const activeTable = CHEMBL_TABLES.find(t => t.key === activeTab)!;
+  const sourceKey = `chembl_${activeTab}`;
+  const activeSourceStatus = sourceStatuses.find((s) => s.source === sourceKey);
 
   const columns: Column<Record<string, unknown>>[] = activeTable.columns.map(k => ({
     key: k,
@@ -97,6 +102,12 @@ export default function ChEMBLBrowsePage() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
+  useEffect(() => {
+    getSourcesStatus()
+      .then((rows) => setSourceStatuses(Array.isArray(rows) ? rows : []))
+      .catch(() => setSourceStatuses([]));
+  }, []);
+
   const handleTabChange = (key: string) => {
     setActiveTab(key);
     setSearchFilter('');
@@ -131,6 +142,26 @@ export default function ChEMBLBrowsePage() {
           </button>
         ))}
       </div>
+
+      {activeSourceStatus?.embedding_label && typeof activeSourceStatus.embedded_count === 'number' && (
+        <Card title="Embedding Status">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-600">{activeSourceStatus.embedding_label}</span>
+              <span className="font-mono text-sm font-medium text-gray-800">
+                {activeSourceStatus.embedded_count.toLocaleString()} / {activeSourceStatus.row_count.toLocaleString()}
+                <span className="ml-2 text-accent">{(activeSourceStatus.embedding_progress || 0).toFixed(1)}%</span>
+              </span>
+            </div>
+            <div className="h-2.5 rounded-full bg-surface-800">
+              <div
+                className="h-2.5 rounded-full bg-emerald-500 transition-all"
+                style={{ width: `${Math.min(100, activeSourceStatus.embedding_progress || 0)}%` }}
+              />
+            </div>
+          </div>
+        </Card>
+      )}
 
       <Card title="Filters">
         <div className="flex flex-wrap gap-3">
