@@ -158,30 +158,50 @@ export default function SourceDetail() {
 
       {/* Extraction Status */}
       <Card title="Extraction Status">
-        {status.extraction_type === 'llm' ? (
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-600">LLM Extraction</span>
-              <span className="font-mono text-sm font-medium text-gray-800">
-                {status.extracted_count.toLocaleString()} / {status.row_count.toLocaleString()}
-                <span className="ml-2 text-accent">{status.extraction_progress.toFixed(1)}%</span>
+        <div className="space-y-4">
+          {status.extraction_type === 'llm' ? (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">LLM Extraction</span>
+                <span className="font-mono text-sm font-medium text-gray-800">
+                  {status.extracted_count.toLocaleString()} / {status.row_count.toLocaleString()}
+                  <span className="ml-2 text-accent">{status.extraction_progress.toFixed(1)}%</span>
+                </span>
+              </div>
+              <div className="h-2.5 rounded-full bg-surface-800">
+                <div
+                  className="h-2.5 rounded-full bg-accent transition-all"
+                  style={{ width: `${Math.min(100, status.extraction_progress)}%` }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="inline-block rounded-full bg-surface-800 px-3 py-1 text-sm text-gray-500">
+                No extraction needed
               </span>
+              <span className="text-xs text-gray-400">This source uses structured data ingestion</span>
             </div>
-            <div className="h-2.5 rounded-full bg-surface-800">
-              <div
-                className="h-2.5 rounded-full bg-accent transition-all"
-                style={{ width: `${Math.min(100, status.extraction_progress)}%` }}
-              />
+          )}
+
+          {status.embedding_label && typeof status.embedded_count === 'number' && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600">{status.embedding_label}</span>
+                <span className="font-mono text-sm font-medium text-gray-800">
+                  {status.embedded_count.toLocaleString()} / {status.row_count.toLocaleString()}
+                  <span className="ml-2 text-accent">{(status.embedding_progress || 0).toFixed(1)}%</span>
+                </span>
+              </div>
+              <div className="h-2.5 rounded-full bg-surface-800">
+                <div
+                  className="h-2.5 rounded-full bg-emerald-500 transition-all"
+                  style={{ width: `${Math.min(100, status.embedding_progress || 0)}%` }}
+                />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <span className="inline-block rounded-full bg-surface-800 px-3 py-1 text-sm text-gray-500">
-              No extraction needed
-            </span>
-            <span className="text-xs text-gray-400">This source uses structured data ingestion</span>
-          </div>
-        )}
+          )}
+        </div>
       </Card>
 
       {/* Field Quality */}
