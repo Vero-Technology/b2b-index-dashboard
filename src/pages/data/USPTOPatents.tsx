@@ -20,6 +20,7 @@ export default function USPTOPatents() {
   const [data, setData] = useState<Patent[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [assignee, setAssignee] = useState('');
@@ -31,6 +32,7 @@ export default function USPTOPatents() {
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
     const params = new URLSearchParams();
     params.set('limit', String(limit));
     params.set('offset', String(page * limit));
@@ -42,10 +44,21 @@ export default function USPTOPatents() {
     if (yearTo) params.set('year_to', yearTo);
 
     client
-      .get(`/api/data/uspto_pharma_patents?${params}`)
+      .get(`/api/data/uspto_pharma_patents?${params}`, { timeout: 60000 })
       .then((res) => {
         setData(res.data.data);
         setTotal(res.data.total);
+      })
+      .catch((err) => {
+        setData([]);
+        setTotal(0);
+        if (err.code === 'ECONNABORTED') {
+          setError('Patent browse request timed out. Try again.');
+        } else if (err.response?.status === 401 || err.response?.status === 403 || err.response?.status === 422) {
+          setError('Patent browse auth failed. Refresh login/API key and retry.');
+        } else {
+          setError('Failed to load patent data.');
+        }
       })
       .finally(() => setLoading(false));
   }, [page, search, assignee, yearFrom, yearTo, sort, order]);
@@ -83,7 +96,6 @@ export default function USPTOPatents() {
         </span>
       </div>
 
-      {/* Filters */}
       <Card className="p-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
           <div className="relative md:col-span-2">
@@ -135,7 +147,6 @@ export default function USPTOPatents() {
         </div>
       </Card>
 
-      {/* Table */}
       <Card className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="border-b border-surface-200 text-gray-500 text-xs uppercase">
@@ -154,6 +165,12 @@ export default function USPTOPatents() {
               <tr>
                 <td colSpan={7} className="px-3 py-8 text-center text-gray-500">
                   Loading...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={7} className="px-3 py-8 text-center text-red-600">
+                  {error}
                 </td>
               </tr>
             ) : data.length === 0 ? (
@@ -213,7 +230,6 @@ export default function USPTOPatents() {
         </table>
       </Card>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between text-sm text-gray-500">
           <span>

@@ -8,10 +8,9 @@ const client = axios.create({
 });
 
 client.interceptors.request.use((config) => {
-  const key = localStorage.getItem('scrape_api_key');
-  if (key) {
-    config.headers['X-Api-Key'] = key;
-  }
+  const key = localStorage.getItem('scrape_api_key') || 'your-secret-key-here';
+  config.headers = config.headers ?? {};
+  config.headers['X-Api-Key'] = key;
   return config;
 });
 
