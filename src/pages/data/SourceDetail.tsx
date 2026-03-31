@@ -50,6 +50,7 @@ const BROWSE_ROUTES: Record<string, string> = {
   pharmgkb_drugs: '/data/pharmgkb',
   pharmgkb_drug_labels: '/data/pharmgkb',
   clinvar_variants: '/data/clinvar',
+  civic_evidence: '/data/civic',
   pharmgkb_variants: '/data/pharmgkb',
   ctgov_studies: '/data/aact',
   ctgov_conditions: '/data/aact',
