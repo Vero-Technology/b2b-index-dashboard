@@ -13,11 +13,15 @@ export interface FieldQuality {
 export interface SourceStatus {
   source: string;
   label: string;
+  category?: string;
   table_name: string;
   row_count: number;
   extraction_type: 'llm' | 'none';
   extracted_count: number;
   extraction_progress: number;
+  embedding_label?: string | null;
+  embedded_count?: number | null;
+  embedding_progress?: number;
   indexes: SourceIndex[];
   index_count: number;
   table_size: string;

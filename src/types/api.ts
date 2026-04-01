@@ -44,6 +44,12 @@ export interface ScraperGrouped {
   totals: GroupTotals & { unique?: number };
 }
 
+export interface CategoryGrouped {
+  category: string;
+  datasets: ScraperGrouped[];
+  totals: GroupTotals & { unique?: number };
+}
+
 export interface Worker {
   session: string;
   status: 'active' | 'attached';

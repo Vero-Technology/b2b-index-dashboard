@@ -13,7 +13,7 @@ export function Card({ title, action, children, className, padding = true }: Car
   return (
     <div
       className={cn(
-        'rounded-xl border border-surface-700 bg-white shadow-sm',
+        'relative rounded-xl border border-surface-700 bg-white shadow-sm',
         className
       )}
     >

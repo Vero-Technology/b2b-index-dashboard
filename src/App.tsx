@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ScraperDetail from './pages/ScraperDetail';
 import Workers from './pages/Workers';
-import DataBrowser from './pages/DataBrowser';
+// DataBrowser removed — SourcesOverview handles all data browsing
 import Indexes from './pages/Indexes';
 import SystemMonitor from './pages/SystemMonitor';
 import WorkerLaunch from './pages/WorkerLaunch';
@@ -26,6 +26,24 @@ import StringPPI from './pages/data/StringPPI';
 import HPATissue from './pages/data/HPATissue';
 import HPARna from './pages/data/HPARna';
 import AlphaFold from './pages/data/AlphaFold';
+import SECFilings from './pages/data/SECFilings';
+import FDACRLs from './pages/data/FDACRLs';
+import EMARefusals from './pages/data/EMARefusals';
+import EUClinicalTrials from './pages/data/EUClinicalTrials';
+import OTStudies from './pages/data/OTStudies';
+import OTGenericBrowse from './pages/data/OTGenericBrowse';
+import ChEMBLBrowse from './pages/data/ChEMBLBrowse';
+import PharmGKBBrowse from './pages/data/PharmGKBBrowse';
+import ClinVarBrowse from './pages/data/ClinVarBrowse';
+import CIViCBrowse from './pages/data/CIViCBrowse';
+import DisGeNETBrowse from './pages/data/DisGeNETBrowse';
+import CrossRefExplorer from './pages/data/CrossRefExplorer';
+import USPTOPatents from './pages/data/USPTOPatents';
+import AACTBrowse from './pages/data/AACTBrowse';
+import OTAssociationBrowse from './pages/data/OTAssociationBrowse';
+import ICTRPBrowse from './pages/data/ICTRPBrowse';
+import PurpleBookBrowse from './pages/data/PurpleBookBrowse';
+import OrangeBookBrowse from './pages/data/OrangeBookBrowse';
 
 export default function App() {
   return (
@@ -42,7 +60,7 @@ export default function App() {
               <Route path="/workers" element={<Workers />} />
               <Route path="/data" element={<SourcesOverview />} />
               <Route path="/data/source/:source" element={<SourceDetail />} />
-              <Route path="/data/browser" element={<DataBrowser />} />
+              {/* /data/browser removed — SourcesOverview at /data handles everything */}
               <Route path="/data/conference-abstracts" element={<ConferenceAbstracts />} />
               <Route path="/data/fda-applications" element={<FDAApplications />} />
               <Route path="/data/fda-applications/:appNumber" element={<FDAApplicationDetail />} />
@@ -57,6 +75,30 @@ export default function App() {
               <Route path="/data/hpa-tissue" element={<HPATissue />} />
               <Route path="/data/hpa-rna" element={<HPARna />} />
               <Route path="/data/alphafold" element={<AlphaFold />} />
+              <Route path="/data/sec-filings" element={<SECFilings />} />
+              <Route path="/data/fda-crls" element={<FDACRLs />} />
+              <Route path="/data/ema-refusals" element={<EMARefusals />} />
+              <Route path="/data/eu-clinical-trials" element={<EUClinicalTrials />} />
+              <Route path="/data/ot-interactions" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-studies" element={<OTStudies />} />
+              <Route path="/data/ot-literature" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-colocalisation" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-disease-phenotype" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-mouse-phenotype" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-pharmacogenomics" element={<OTGenericBrowse />} />
+              <Route path="/data/ot-target-prioritisation" element={<OTGenericBrowse />} />
+              <Route path="/data/chembl" element={<ChEMBLBrowse />} />
+              <Route path="/data/pharmgkb" element={<PharmGKBBrowse />} />
+              <Route path="/data/clinvar" element={<ClinVarBrowse />} />
+              <Route path="/data/civic" element={<CIViCBrowse />} />
+              <Route path="/data/disgenet" element={<DisGeNETBrowse />} />
+              <Route path="/data/xref" element={<CrossRefExplorer />} />
+              <Route path="/data/uspto-patents" element={<USPTOPatents />} />
+              <Route path="/data/aact" element={<AACTBrowse />} />
+              <Route path="/data/ot-associations" element={<OTAssociationBrowse />} />
+              <Route path="/data/ictrp" element={<ICTRPBrowse />} />
+              <Route path="/data/purple-book" element={<PurpleBookBrowse />} />
+              <Route path="/data/orange-book" element={<OrangeBookBrowse />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>

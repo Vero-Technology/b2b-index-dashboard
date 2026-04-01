@@ -110,3 +110,135 @@ export async function getAdcomDocuments(params: {
   const { data } = await client.get('/api/data/fda_adcom_documents', { params });
   return data;
 }
+
+export interface ExtractedCRL {
+  drug_name?: string;
+  indication?: string;
+  rejection_reasons?: string[];
+  crl_date?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedDrug {
+  drug_name?: string;
+  name?: string;
+  indication?: string;
+  therapeutic_area?: string;
+  phase?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedPatent {
+  drug_name?: string;
+  product?: string;
+  expiration_date?: string;
+  patent_number?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractedLitigation {
+  case_name?: string;
+  description?: string;
+  status?: string;
+  drug_name?: string;
+  [key: string]: unknown;
+}
+
+export interface SECFiling {
+  id: number;
+  company: string;
+  form_type: string;
+  filing_date: string | null;
+  source_url: string;
+  crl_count: number;
+  pipeline_count: number;
+  patent_count: number;
+  litigation_count?: number;
+  crls?: ExtractedCRL[];
+  pipeline_drugs?: ExtractedDrug[];
+  patent_expirations?: ExtractedPatent[];
+  litigation?: ExtractedLitigation[];
+}
+
+export interface FDACRL {
+  id: number;
+  drug_name: string;
+  generic_name: string | null;
+  sponsor: string;
+  indication: string;
+  application_type: string;
+  crl_date: string | null;
+  rejection_reasons: string[];
+  fda_requests: string[];
+  source_type: string;
+  filing_date: string | null;
+  source_url: string;
+}
+
+export interface EMARefusal {
+  id: number;
+  product_name: string;
+  active_substance: string | null;
+  therapeutic_area: string | null;
+  outcome_type: string;
+  reason: string | null;
+  decision_date: string | null;
+  epar_url: string | null;
+}
+
+export async function getSECFilings(params: {
+  company?: string;
+  form_type?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<SECFiling>> {
+  const { data } = await client.get('/api/data/sec_filings', { params });
+  return data;
+}
+
+export async function getFDACRLs(params: {
+  drug_name?: string;
+  sponsor?: string;
+  indication?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<FDACRL>> {
+  const { data } = await client.get('/api/data/fda_crls', { params });
+  return data;
+}
+
+export async function getEMARefusals(params: {
+  product_name?: string;
+  outcome_type?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<EMARefusal>> {
+  const { data } = await client.get('/api/data/ema_refusals', { params });
+  return data;
+}
+
+export interface EUClinicalTrial {
+  id: number;
+  eudract_number: string;
+  title: string;
+  sponsor_name: string;
+  trial_status: string;
+  phase: string;
+  medical_conditions: string[];
+  imp_names: string[];
+  date_entered: string;
+  source_url: string;
+}
+
+export async function getEUClinicalTrials(params: {
+  sponsor?: string;
+  status?: string;
+  phase?: string;
+  search?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<PaginatedResponse<EUClinicalTrial>> {
+  const { data } = await client.get('/api/data/eu_clinical_trials', { params });
+  return data;
+}
