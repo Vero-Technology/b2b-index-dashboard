@@ -20,6 +20,12 @@ import EMAEpars from './pages/data/EMAEpars';
 import AdComDocuments from './pages/data/AdComDocuments';
 import AdComMembers from './pages/data/AdComMembers';
 import ClinicalTrials from './pages/data/ClinicalTrials';
+import UniProt from './pages/data/UniProt';
+import Reactome from './pages/data/Reactome';
+import StringPPI from './pages/data/StringPPI';
+import HPATissue from './pages/data/HPATissue';
+import HPARna from './pages/data/HPARna';
+import AlphaFold from './pages/data/AlphaFold';
 
 export default function App() {
   return (
@@ -45,6 +51,12 @@ export default function App() {
               <Route path="/data/adcom-documents" element={<AdComDocuments />} />
               <Route path="/data/adcom-members" element={<AdComMembers />} />
               <Route path="/data/clinical-trials" element={<ClinicalTrials />} />
+              <Route path="/data/uniprot" element={<UniProt />} />
+              <Route path="/data/reactome" element={<Reactome />} />
+              <Route path="/data/string-ppi" element={<StringPPI />} />
+              <Route path="/data/hpa-tissue" element={<HPATissue />} />
+              <Route path="/data/hpa-rna" element={<HPARna />} />
+              <Route path="/data/alphafold" element={<AlphaFold />} />
               <Route path="/indexes" element={<Indexes />} />
             </Route>
           </Route>

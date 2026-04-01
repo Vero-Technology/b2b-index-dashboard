@@ -23,6 +23,13 @@ const BROWSE_ROUTES: Record<string, string> = {
   adcom_members: '/data/adcom-members',
   fda_drug_documents: '/data/fda-documents',
   clinical_trials: '/data/clinical-trials',
+  uniprot_proteins: '/data/uniprot',
+  reactome_pathways: '/data/reactome',
+  reactome_uniprot_mapping: '/data/reactome',
+  string_ppi: '/data/string-ppi',
+  hpa_tissue_expression: '/data/hpa-tissue',
+  hpa_rna_tissue: '/data/hpa-rna',
+  alphafold_structures: '/data/alphafold',
 };
 
 export default function SourceDetail() {
