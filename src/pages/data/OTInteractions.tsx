@@ -48,11 +48,11 @@ export default function OTInteractionsPage() {
   useEffect(() => { fetchData(); }, [fetchData]);
 
   const columns: Column<OTInteraction>[] = [
-    { key: 'targeta', header: 'Target A', className: 'font-mono text-xs' },
-    { key: 'targetb', header: 'Target B', className: 'font-mono text-xs' },
+    { key: 'target_a_name', header: 'Target A' },
+    { key: 'target_b_name', header: 'Target B' },
     { key: 'sourcedatabase', header: 'Source DB', className: 'w-28' },
-    { key: 'inta', header: 'Interactor A', className: 'text-xs' },
-    { key: 'intb', header: 'Interactor B', className: 'text-xs' },
+    { key: 'interactor_a_name', header: 'Interactor A', className: 'text-xs' },
+    { key: 'interactor_b_name', header: 'Interactor B', className: 'text-xs' },
     { 
       key: 'scoring', 
       header: 'Score',
